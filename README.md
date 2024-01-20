@@ -64,8 +64,6 @@ git clone https://github.com/anupam00777/release.git
 ### Step 2: Create a New Branch
 
 ````markdown
-## Step 2: Create a New Branch
-
 ```bash
 git checkout -b feature/your-feature-name
 ```
@@ -74,8 +72,6 @@ git checkout -b feature/your-feature-name
 ### Step 3: Make Changes and Commit
 
 ````markdown
-## Step 3: Make Changes and Commit
-
 ```bash
 git commit -m "Add your commit message here"
 ```
@@ -84,8 +80,6 @@ git commit -m "Add your commit message here"
 ### Step 4: Push Changes to Your Fork
 
 ````markdown
-## Step 4: Push Changes to Your Fork
-
 ```bash
 git push origin feature/your-feature-name
 ```
@@ -94,8 +88,6 @@ git push origin feature/your-feature-name
 ### Step 5: Open a Pull Request
 
 ```markdown
-## Step 5: Open a Pull Request
-
 - Open a pull request on the official repository.
 ```
 
