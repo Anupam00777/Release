@@ -63,27 +63,21 @@ git clone https://github.com/anupam00777/release.git
 
 ### Step 2: Create a New Branch
 
-````markdown
 ```bash
 git checkout -b feature/your-feature-name
 ```
-````
 
 ### Step 3: Make Changes and Commit
 
-````markdown
 ```bash
 git commit -m "Add your commit message here"
 ```
-````
 
 ### Step 4: Push Changes to Your Fork
 
-````markdown
 ```bash
 git push origin feature/your-feature-name
 ```
-````
 
 ### Step 5: Open a Pull Request
 
@@ -98,3 +92,7 @@ git push origin feature/your-feature-name
 ## Conclusion:
 
 Feel free to contribute, report issues, or suggest improvements! 🚀
+
+```
+
+```
