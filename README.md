@@ -30,9 +30,6 @@ Release is an ongoing web application project developed using React and Tailwind
 
   - A utility-first CSS framework that enables the creation of modern and responsive user interfaces with ease.
 
-- **Firebase (Future Integration):**
-  - A cloud platform that provides various services such as authentication, database, and hosting, enhancing the project's capabilities.
-
 ## Getting Started:
 
 1. Clone the repository:
