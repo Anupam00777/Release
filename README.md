@@ -92,7 +92,3 @@ git push origin feature/your-feature-name
 ## Conclusion:
 
 Feel free to contribute, report issues, or suggest improvements! 🚀
-
-```
-
-```
