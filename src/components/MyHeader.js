@@ -34,12 +34,9 @@ const MyHeader = (props) => {
     <>
       {/* Header Section */}
       <header className="sticky bg-black shadow-lg transition-all">
-        <div className="container mx-auto flex lg:justify-evenly justify-between items-center p-2 sm:p-3 md:p5">
+        <div className="mx-auto container flex lg:justify-evenly justify-between items-center p-3 sm:p-4 md:p-5">
           {/* Logo and Website Name */}
           <Banner title="Release" href={"/"} />
-
-          {/* Navigation Links */}
-          <NavBar />
 
           <div className="flex space-x-2">
             {/* Search Button */}
@@ -53,6 +50,8 @@ const MyHeader = (props) => {
             {/* Mobile Menu Button */}
             <SideBarIcon onClick={toggleMobileMenu} />
           </div>
+          {/* Navigation Links */}
+          <NavBar />
         </div>
       </header>
 
@@ -77,7 +76,7 @@ const Banner = ({ title, href }) => {
         alt={title}
         className="md:h-12 md:w-12 sm:h-10 sm:w-10 h-8 w-8 rounded-full border-2 border-white"
       />
-      <h1 className="text-xl md:text-2xl lg:text-3xl font-extrabold text-white">
+      <h1 className="text-xl md:text-2xl lg:text-3xl font-extrabold text-red-500">
         {title}
       </h1>
     </Link>
@@ -88,20 +87,24 @@ const Banner = ({ title, href }) => {
 const NavBar = () => {
   const elements = NavLinks.map((e) => {
     return (
-      <Link to={e.href} key={e.sno} className="text-white hover:text-gray-200">
+      <Link
+        to={e.href}
+        key={e.sno}
+        className="text-red-500 hover:text-gray-200 text-lg"
+      >
         {e.title}
       </Link>
     );
   });
 
-  return <nav className="hidden md:flex space-x-4">{elements}</nav>;
+  return <nav className="hidden md:flex space-x-8">{elements}</nav>;
 };
 
 // SearchBar component
 const SearchBar = (props) => {
   return (
     <div
-      className={`bg-white text-blue-500 px-2 rounded-full focus:outline-none focus:shadow-outline-blue justify-center items-center flex`}
+      className={`bg-white text-red-500 px-2 rounded-full focus:outline-none focus:shadow-outline-blue justify-center items-center flex`}
     >
       <div
         className={`flex justify-center items-center rounded-full transition-all duration-300 md:w-40 lg:w-80 ${
@@ -110,7 +113,7 @@ const SearchBar = (props) => {
       >
         <input
           type="text"
-          className={`bg-white flex outline-0 rounded-full h-full w-full px-2`}
+          className={`bg-inherit flex outline-0 rounded-full w-full px-2 placeholder:text-red-500`}
           placeholder="Search..."
           value={props.inputValue}
           onChange={(e) => {
@@ -143,7 +146,7 @@ const HiddenSideBar = ({ isMobileMenuOpen, toggleMobileMenu }) => {
       <Link
         to={e.href}
         key={e.sno}
-        className="text-gray-600 hover:text-gray-800 py-2"
+        className="text-red-500 hover:text-gray-800 text-lg py-3"
       >
         {e.title}
       </Link>
@@ -152,7 +155,7 @@ const HiddenSideBar = ({ isMobileMenuOpen, toggleMobileMenu }) => {
 
   return (
     <div
-      className={`fixed top-0 right-0 bg-white z-50 transition-all duration-500 w-1/2 ${
+      className={`fixed top-0 right-0 h-full bg-white z-50 transition-all duration-500 w-1/2 ${
         isMobileMenuOpen ? "" : " !translate-x-full"
       }`}
     >

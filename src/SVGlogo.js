@@ -1,7 +1,7 @@
 const SearchSVG = () => {
   return (
     <svg
-      fill="#000000"
+      fill="#ee4444"
       height="200px"
       width="200px"
       version="1.1"
@@ -10,7 +10,7 @@ const SearchSVG = () => {
       xmlnsXlink="http://www.w3.org/1999/xlink"
       viewBox="0 0 502.173 502.173"
       xmlSpace="preserve"
-      className="h-6 w-6 my-2" // Customize the size using Tailwind CSS classes
+      className="h-6 w-6 my-2 " // Customize the size using Tailwind CSS classes
     >
       <g>
         <g>
@@ -55,7 +55,7 @@ const SearchSVG = () => {
 const XSVG = () => {
   return (
     <svg
-      className="h-8 w-8 text-black"
+      className="h-8 w-8 text-red-500"
       fill="none"
       stroke="currentColor"
       viewBox="0 0 24 24"
@@ -74,7 +74,7 @@ const XSVG = () => {
 const OptionsSVG = () => {
   return (
     <svg
-      className="h-8 w-8 text-white"
+      className="h-8 w-8 text-red-500"
       fill="none"
       stroke="currentColor"
       viewBox="0 0 24 24"

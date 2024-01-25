@@ -1,6 +1,8 @@
-import MyFooter from "../components/MyFooter";
+import React from "react";
 import MyHeader from "../components/MyHeader";
-function Home() {
+import MyFooter from "../components/MyFooter";
+
+export default function About() {
   return (
     <>
       <MyHeader />
@@ -8,5 +10,3 @@ function Home() {
     </>
   );
 }
-
-export default Home;
