@@ -1,36 +1,46 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "./logo.svg";
 import { OptionsSVG, SearchSVG, XSVG } from "../SVGlogo";
 
+// Navigation links
 const NavLinks = [
   { sno: 1, title: "Home", href: "/" },
   { sno: 2, title: "Trending", href: "/" },
   { sno: 3, title: "About", href: "/About" },
 ];
 
+// MyHeader component
 const MyHeader = (props) => {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isSearchBarOpen, setSearchBarOpen] = useState(false);
   const [inputValue, setInputValue] = useState("");
+
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!isMobileMenuOpen);
   };
+
   const toggleSearchBar = () => {
-    if (inputValue.trim() === "") setSearchBarOpen(!isSearchBarOpen);
-    else initiateSearch(inputValue); //
+    if (inputValue.trim() === "") {
+      setSearchBarOpen(!isSearchBarOpen);
+    } else {
+      initiateSearch(inputValue);
+    }
   };
+
   const initiateSearch = () => {};
+
   return (
     <>
       {/* Header Section */}
-      <header className=" sticky bg-black shadow-lg  transition-all">
+      <header className="sticky bg-black shadow-lg transition-all">
         <div className="container mx-auto flex lg:justify-evenly justify-between items-center p-2 sm:p-3 md:p5">
           {/* Logo and Website Name */}
           <Banner title="Release" href={"/"} />
+
           {/* Navigation Links */}
           <NavBar />
+
           <div className="flex space-x-2">
             {/* Search Button */}
             <SearchBar
@@ -39,11 +49,14 @@ const MyHeader = (props) => {
               inputValue={inputValue}
               setInputValue={setInputValue}
             />
+
             {/* Mobile Menu Button */}
             <SideBarIcon onClick={toggleMobileMenu} />
           </div>
         </div>
       </header>
+
+      {/* Hidden Side Bar */}
       <HiddenSideBar
         isMobileMenuOpen={isMobileMenuOpen}
         toggleMobileMenu={toggleMobileMenu}
@@ -52,6 +65,7 @@ const MyHeader = (props) => {
   );
 };
 
+// Banner component
 const Banner = ({ title, href }) => {
   return (
     <Link
@@ -70,6 +84,7 @@ const Banner = ({ title, href }) => {
   );
 };
 
+// NavBar component
 const NavBar = () => {
   const elements = NavLinks.map((e) => {
     return (
@@ -78,9 +93,11 @@ const NavBar = () => {
       </Link>
     );
   });
+
   return <nav className="hidden md:flex space-x-4">{elements}</nav>;
 };
 
+// SearchBar component
 const SearchBar = (props) => {
   return (
     <div
@@ -108,6 +125,7 @@ const SearchBar = (props) => {
   );
 };
 
+// SideBarIcon component
 const SideBarIcon = ({ onClick }) => {
   return (
     <>
@@ -117,6 +135,8 @@ const SideBarIcon = ({ onClick }) => {
     </>
   );
 };
+
+// HiddenSideBar component
 const HiddenSideBar = ({ isMobileMenuOpen, toggleMobileMenu }) => {
   const elements = NavLinks.map((e) => {
     return (
@@ -129,6 +149,7 @@ const HiddenSideBar = ({ isMobileMenuOpen, toggleMobileMenu }) => {
       </Link>
     );
   });
+
   return (
     <div
       className={`fixed top-0 right-0 bg-white z-50 transition-all duration-500 w-1/2 ${
@@ -146,4 +167,5 @@ const HiddenSideBar = ({ isMobileMenuOpen, toggleMobileMenu }) => {
     </div>
   );
 };
+
 export default MyHeader;
