@@ -25,7 +25,7 @@ const MyHeader = (props) => {
   return (
     <>
       {/* Header Section */}
-      <header className=" sticky bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 shadow-lg transition-all">
+      <header className=" sticky bg-black shadow-lg  transition-all">
         <div className="container mx-auto flex lg:justify-evenly justify-between items-center p-2 sm:p-3 md:p5">
           {/* Logo and Website Name */}
           <Banner title="Release" href={"/"} />
