@@ -1,4 +1,5 @@
 import Home from "./pages/Home";
+import About from "./pages/About";
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 function App() {
@@ -6,6 +7,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/About" element={<About />} />
       </Routes>
     </Router>
   );

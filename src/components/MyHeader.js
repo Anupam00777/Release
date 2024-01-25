@@ -1,14 +1,13 @@
 import React from "react";
 import { useState } from "react";
-import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import logo from "./logo.svg";
 import { OptionsSVG, SearchSVG, XSVG } from "../SVGlogo";
 
 const NavLinks = [
-  { sno: 1, title: "Home", href: "/App" },
-  { sno: 2, title: "Services", href: "/App" },
-  { sno: 3, title: "Contact", href: "/App" },
-  { sno: 4, title: "About", href: "/App" },
+  { sno: 1, title: "Home", href: "/" },
+  { sno: 2, title: "Trending", href: "/" },
+  { sno: 3, title: "About", href: "/About" },
 ];
 
 const MyHeader = (props) => {
@@ -26,10 +25,10 @@ const MyHeader = (props) => {
   return (
     <>
       {/* Header Section */}
-      <header className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 shadow-lg transition-all">
+      <header className=" sticky bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 shadow-lg transition-all">
         <div className="container mx-auto flex lg:justify-evenly justify-between items-center p-2 sm:p-3 md:p5">
           {/* Logo and Website Name */}
-          <Banner title="Release" href={"google.com"} />
+          <Banner title="Release" href={"/"} />
           {/* Navigation Links */}
           <NavBar />
           <div className="flex space-x-2">
@@ -55,7 +54,10 @@ const MyHeader = (props) => {
 
 const Banner = ({ title, href }) => {
   return (
-    <div className="flex items-center space-x-2 sm:space-x-4 cursor-pointer">
+    <Link
+      to={href}
+      className="flex items-center space-x-2 sm:space-x-4 cursor-pointer"
+    >
       <img
         src={logo}
         alt={title}
@@ -64,17 +66,15 @@ const Banner = ({ title, href }) => {
       <h1 className="text-xl md:text-2xl lg:text-3xl font-extrabold text-white">
         {title}
       </h1>
-    </div>
+    </Link>
   );
 };
 
 const NavBar = () => {
   const elements = NavLinks.map((e) => {
     return (
-      <Link to={e.href}>
-        <a key={e.sno} className="text-white hover:text-gray-200">
-          {e.title}
-        </a>
+      <Link to={e.href} key={e.sno} className="text-white hover:text-gray-200">
+        {e.title}
       </Link>
     );
   });
@@ -120,10 +120,12 @@ const SideBarIcon = ({ onClick }) => {
 const HiddenSideBar = ({ isMobileMenuOpen, toggleMobileMenu }) => {
   const elements = NavLinks.map((e) => {
     return (
-      <Link to={e.href}>
-        <a key={e.sno} className="text-gray-600 hover:text-gray-800 py-2">
-          {e.title}
-        </a>
+      <Link
+        to={e.href}
+        key={e.sno}
+        className="text-gray-600 hover:text-gray-800 py-2"
+      >
+        {e.title}
       </Link>
     );
   });
