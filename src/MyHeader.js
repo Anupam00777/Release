@@ -1,6 +1,6 @@
 import { useState } from "react";
 import logo from "./logo.svg";
-import { CustomSVG } from "./SVGlogo";
+import { SearchSVG, XSVG } from "./SVGlogo";
 
 const MyHeader = () => {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -50,26 +50,26 @@ const MyHeader = () => {
             <div
               className={`bg-white text-blue-500 px-2 rounded-full focus:outline-none focus:shadow-outline-blue justify-center items-center transition-all duration-300 flex`}
             >
-              <div className="flex justify-center items-center">
+              <div
+                className={`flex justify-center items-center rounded-full transition-all duration-300 md:w-40 lg:w-80 ${
+                  isSearchBarOpen ? "w-32" : "w-0 px-0"
+                }`}
+              >
                 <input
                   type="text"
-                  className={`bg-white transition-all duration-300 md:w-40 lg:w-80 flex focus:outline-none rounded-full py-2 ${
-                    isSearchBarOpen ? "w-32" : "w-0"
-                  }`}
+                  className={`bg-white flex outline-0 rounded-full h-full w-full px-2`}
                   placeholder="Search..."
                 />
               </div>
               <button className="relative" onClick={toggleSearchBar}>
-                <CustomSVG />
+                <SearchSVG />
               </button>
             </div>
 
             {/* Mobile Menu Button */}
             <button
               className="md:hidden focus:outline-none"
-              onClick={() => {
-                toggleMobileMenu();
-              }}
+              onClick={toggleMobileMenu}
             >
               <svg
                 className="h-8 w-8 text-white"
@@ -79,9 +79,9 @@ const MyHeader = () => {
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
                   d="M4 6h16M4 12h16m-7 6h7"
                 ></path>
               </svg>
@@ -93,25 +93,12 @@ const MyHeader = () => {
       {/* Mobile Menu (Hidden by default) */}
       <div
         className={`translate-x-full bg-white fixed inset-0 z-50 transition-all duration-500 ${
-          isMobileMenuOpen ? "" : "!translate-x-0"
+          !isMobileMenuOpen ? "" : "!translate-x-0"
         }`}
       >
         <div className="flex justify-end p-4">
           <button className="focus:outline-none" onClick={toggleMobileMenu}>
-            <svg
-              className="h-8 w-8 text-black"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M6 18L18 6M6 6l12 12"
-              ></path>
-            </svg>
+            <XSVG />
           </button>
         </div>
 
