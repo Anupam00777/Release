@@ -9,7 +9,7 @@ export const SearchSVG = () => {
       xmlnsXlink="http://www.w3.org/1999/xlink"
       viewBox="0 0 502.173 502.173"
       xmlSpace="preserve"
-      className="h-6 w-6 my-2 dark:fill-red-500 fill-white" // Customize the size using Tailwind CSS classes
+      className="h-4 w-4 sm:h-6 sm:w-6  my-2 dark:fill-red-500 fill-white" // Customize the size using Tailwind CSS classes
     >
       <g>
         <g>

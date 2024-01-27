@@ -54,7 +54,7 @@ const MyHeader = () => {
 
           <Banner title="Release" href={"/"} />
 
-          <div className="flex space-x-2">
+          <div className="flex space-x-2 h-full">
             {/* Search Button */}
 
             <SearchBar
@@ -104,7 +104,7 @@ const Banner = ({ title, href }) => {
         alt={title}
         className="md:h-12 md:w-12 sm:h-10 sm:w-10 h-8 w-8 rounded-full border-2 border-white"
       />
-      <h1 className="text-xl md:text-2xl lg:text-3xl font-extrabold text-red-500">
+      <h1 className="text-xl md:text-2xl lg:text-3xl font-extrabold text-red-500 ">
         {title}
       </h1>
     </Link>
@@ -134,17 +134,17 @@ const NavBar = () => {
 const SearchBar = (props) => {
   return (
     <div
-      className={`dark:bg-white dark:text-red-500 bg-red-500 text-white px-2 rounded-full focus:outline-none focus:shadow-outline-blue justify-center items-center flex`}
+      className={`dark:bg-white dark:text-red-500 bg-red-500 text-white px-0 rounded-full focus:outline-none focus:shadow-outline-blue justify-center items-center flex`}
     >
       {/* {Making search bar contractable in mobile screens} */}
       <div
-        className={`flex justify-center items-center rounded-full transition-all duration-300 md:w-40 lg:w-80 ${
-          props.isSearchBarOpen ? "w-32" : "w-0 px-0"
+        className={`flex justify-center items-center rounded-full transition-all duration-300 sm:w-40 lg:w-80 ${
+          props.isSearchBarOpen ? "w-32 max-[400px]:w-24" : "w-0 px-0"
         }`}
       >
         <input
           type="text"
-          className={`bg-inherit flex outline-0 rounded-full w-full px-2 dark:placeholder:text-red-500 placeholder:text-white`}
+          className={`bg-inherit flex outline-0 rounded-full w-full pl-1 dark:placeholder:text-red-500 placeholder:text-white ml-1 placeholder:text-sm sm:placeholder:text-base `}
           placeholder="Search..."
           value={props.inputValue}
           onChange={(e) => {
@@ -152,7 +152,7 @@ const SearchBar = (props) => {
           }}
         />
       </div>
-      <button className="relative" onClick={props.toggleSearchBar}>
+      <button className="px-2" onClick={props.toggleSearchBar}>
         <Svg.SearchSVG />
       </button>
     </div>
@@ -179,7 +179,7 @@ const HiddenSideBar = ({ isMobileMenuOpen, toggleMobileMenu }) => {
         to={e.href}
         key={e.sno}
         onClick={e.onClick}
-        className="text-red-500 dark:hover:text-gray-200 hover:text-black text-lg py-3"
+        className="text-red-500 dark:hover:text-gray-200 hover:text-black text-base sm:text-lg py-3"
       >
         {e.title}
       </Link>

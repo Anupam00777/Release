@@ -117,9 +117,9 @@ const FooterForm = () => {
 //Bottom most part of webpage
 const Branding = () => {
   return (
-    <div className="text-sm p-4 flex w-full border-t-gray-200 dark:border-t-gray-600 border-t-[1px] items-center justify-center">
+    <div className=" text-xs sm:text-sm p-4 flex w-full border-t-gray-200 dark:border-t-gray-600 border-t-[1px] items-center justify-center">
       © 2024 Release | Developed by&nbsp;
-      <button className="group relative overflow-hidden transition-all hover:bg-gradient-to-r hover:to-pink-500 hover:from-yellow-500 hover:text-white py-2 px-4 rounded-md">
+      <button className="group relative overflow-hidden transition-all hover:bg-gradient-to-r hover:to-pink-500 hover:from-yellow-500 hover:text-white py-2 px-0 rounded-md">
         <a
           href="https://www.instagram.com/anupam_pandey_offline"
           rel="noreferrer"
