@@ -1,25 +1,38 @@
-import React, { useState } from "react";
+/**
+ * This is a React component for the Header section of the website.
+ * It includes a logo, Search Bar, navigation links, and on mobile screens - A slider to access the navigation links.
+ */
+
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "./logo.svg";
-import { OptionsSVG, SearchSVG, XSVG } from "../SVGlogo";
+import * as Svg from "../SVGlogo";
+import { ThemeContext } from "./ThemeMode";
 
 // Navigation links
 const NavLinks = [
-  { sno: 1, title: "Home", href: "/" },
-  { sno: 2, title: "Trending", href: "/" },
-  { sno: 3, title: "About", href: "/About" },
+  { sno: 1, title: "Home", href: "/", onClick: "" },
+  { sno: 2, title: "Trending", href: "/", onClick: "" },
+  { sno: 3, title: "About", href: "/About", onClick: "" },
 ];
 
-// MyHeader component
-const MyHeader = (props) => {
+// Header component
+const MyHeader = () => {
+  // Getting Theme context for theme change button
+
+  const { isDarkMode, toggleDarkMode } = useContext(ThemeContext);
+
+  //States for needed variables
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isSearchBarOpen, setSearchBarOpen] = useState(false);
   const [inputValue, setInputValue] = useState("");
 
+  //Functions to toggle the above States
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!isMobileMenuOpen);
   };
 
+  //In mobile mode, serach bar will only contract if there is no Text inside
   const toggleSearchBar = () => {
     if (inputValue.trim() === "") {
       setSearchBarOpen(!isSearchBarOpen);
@@ -28,18 +41,22 @@ const MyHeader = (props) => {
     }
   };
 
+  //Logic for Search Button
   const initiateSearch = () => {};
 
   return (
     <>
       {/* Header Section */}
-      <header className="sticky bg-black shadow-lg transition-all">
+
+      <header className="sticky dark:bg-black bg-white shadow-lg transition-all">
         <div className="mx-auto container flex lg:justify-evenly justify-between items-center p-3 sm:p-4 md:p-5">
           {/* Logo and Website Name */}
+
           <Banner title="Release" href={"/"} />
 
           <div className="flex space-x-2">
             {/* Search Button */}
+
             <SearchBar
               toggleSearchBar={toggleSearchBar}
               isSearchBarOpen={isSearchBarOpen}
@@ -47,15 +64,26 @@ const MyHeader = (props) => {
               setInputValue={setInputValue}
             />
 
+            {/* {Dark-Light Mode Toggle Button} */}
+
+            <DarkModeBtn
+              isDarkMode={isDarkMode}
+              toggleDarkMode={toggleDarkMode}
+            />
+
             {/* Mobile Menu Button */}
+
             <SideBarIcon onClick={toggleMobileMenu} />
           </div>
+
           {/* Navigation Links */}
+
           <NavBar />
         </div>
       </header>
 
       {/* Hidden Side Bar */}
+
       <HiddenSideBar
         isMobileMenuOpen={isMobileMenuOpen}
         toggleMobileMenu={toggleMobileMenu}
@@ -85,12 +113,14 @@ const Banner = ({ title, href }) => {
 
 // NavBar component
 const NavBar = () => {
+  //Mapping all the elements of Navlinks to a Link for routing
   const elements = NavLinks.map((e) => {
     return (
       <Link
         to={e.href}
         key={e.sno}
-        className="text-red-500 hover:text-gray-200 text-lg"
+        onClick={e.onClick}
+        className="text-red-500 dark:hover:text-gray-200 hover:text-black text-lg"
       >
         {e.title}
       </Link>
@@ -104,8 +134,9 @@ const NavBar = () => {
 const SearchBar = (props) => {
   return (
     <div
-      className={`bg-white text-red-500 px-2 rounded-full focus:outline-none focus:shadow-outline-blue justify-center items-center flex`}
+      className={`dark:bg-white dark:text-red-500 bg-red-500 text-white px-2 rounded-full focus:outline-none focus:shadow-outline-blue justify-center items-center flex`}
     >
+      {/* {Making search bar contractable in mobile screens} */}
       <div
         className={`flex justify-center items-center rounded-full transition-all duration-300 md:w-40 lg:w-80 ${
           props.isSearchBarOpen ? "w-32" : "w-0 px-0"
@@ -113,7 +144,7 @@ const SearchBar = (props) => {
       >
         <input
           type="text"
-          className={`bg-inherit flex outline-0 rounded-full w-full px-2 placeholder:text-red-500`}
+          className={`bg-inherit flex outline-0 rounded-full w-full px-2 dark:placeholder:text-red-500 placeholder:text-white`}
           placeholder="Search..."
           value={props.inputValue}
           onChange={(e) => {
@@ -122,7 +153,7 @@ const SearchBar = (props) => {
         />
       </div>
       <button className="relative" onClick={props.toggleSearchBar}>
-        <SearchSVG />
+        <Svg.SearchSVG />
       </button>
     </div>
   );
@@ -133,7 +164,7 @@ const SideBarIcon = ({ onClick }) => {
   return (
     <>
       <button className="md:hidden focus:outline-none" onClick={onClick}>
-        <OptionsSVG />
+        <Svg.OptionsSVG />
       </button>
     </>
   );
@@ -141,12 +172,14 @@ const SideBarIcon = ({ onClick }) => {
 
 // HiddenSideBar component
 const HiddenSideBar = ({ isMobileMenuOpen, toggleMobileMenu }) => {
+  //Similar as NavBar
   const elements = NavLinks.map((e) => {
     return (
       <Link
         to={e.href}
         key={e.sno}
-        className="text-red-500 hover:text-gray-800 text-lg py-3"
+        onClick={e.onClick}
+        className="text-red-500 dark:hover:text-gray-200 hover:text-black text-lg py-3"
       >
         {e.title}
       </Link>
@@ -154,19 +187,42 @@ const HiddenSideBar = ({ isMobileMenuOpen, toggleMobileMenu }) => {
   });
 
   return (
-    <div
-      className={`fixed top-0 right-0 h-full bg-white z-50 transition-all duration-500 w-1/2 ${
-        isMobileMenuOpen ? "" : " !translate-x-full"
-      }`}
-    >
-      <div className="flex justify-end p-4">
-        <button className="focus:outline-none" onClick={toggleMobileMenu}>
-          <XSVG />
-        </button>
-      </div>
+    <>
+      <div
+        className={`z-40 absolute top-0 left-0 h-[100vh] w-[100vw] transition-all duration-500 ${
+          isMobileMenuOpen ? "!backdrop-blur-sm" : "hidden "
+        }`}
+      ></div>
+      <div
+        className={`fixed top-0 right-0 h-full bg-white z-50 transition-all duration-500 w-1/2 ${
+          isMobileMenuOpen ? "" : "!translate-x-full "
+        }`}
+      >
+        <div className="flex justify-end p-4">
+          <button className="focus:outline-none" onClick={toggleMobileMenu}>
+            <Svg.XSVG />
+          </button>
+        </div>
 
-      {/* Mobile Menu Links */}
-      <nav className="flex flex-col items-center">{elements}</nav>
+        {/* Mobile Menu Links */}
+        <nav className="flex flex-col items-center">{elements}</nav>
+      </div>
+    </>
+  );
+};
+
+//Darkmode button component
+const DarkModeBtn = ({ isDarkMode, toggleDarkMode }) => {
+  return (
+    <div className="flex items-center justify-center">
+      <button
+        onClick={toggleDarkMode}
+        id="theme-toggle"
+        type="button"
+        className="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm "
+      >
+        {!isDarkMode ? <Svg.MoonSVG /> : <Svg.SunSVG />}
+      </button>
     </div>
   );
 };

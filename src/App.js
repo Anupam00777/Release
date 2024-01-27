@@ -1,15 +1,24 @@
 import Home from "./pages/Home";
 import About from "./pages/About";
-import React from "react";
+import React, { useContext } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { ThemeContext } from "./components/ThemeMode";
+
+//Main Application to route through different pages
+
 function App() {
+  //Using ThemeContext to set the theme of page
+  const { isDarkMode } = useContext(ThemeContext);
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/About" element={<About />} />
-      </Routes>
-    </Router>
+    <div className={`Wrapper ${isDarkMode ? "dark" : ""}`}>
+      {/*Route all the pages from main page*/}
+      <Router>
+        <Routes>
+          <Route path="/" exact element={<Home />} />
+          <Route path="/About" exact element={<About />} />
+        </Routes>
+      </Router>
+    </div>
   );
 }
 

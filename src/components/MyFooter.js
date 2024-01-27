@@ -16,10 +16,10 @@ const NavLinks = [
 //Main footer component
 const MyFooter = () => {
   return (
-    <footer className="bg-black text-red-500 fixed bottom-0 w-full">
+    <footer className="dark:bg-black bg-white text-red-500  fixed bottom-0 w-full border-t dark:border-0">
       <div className="mx-auto footer grid grid-flow-row sm:grid-flow-col my-0 sm:justify-evenly pt-3 px-12 sm:p-4 md:p-5 max-w-[1024px]">
         <NavBar />
-        <div className="sm:border-l-[1px] sm:w-0 sm:m-0 border-gray-600 sm:h-full min-h-[1px] border-t-[1px] w-full my-4 sm:row-auto row-start-2"></div>
+        <div className="sm:border-l-[1px] sm:w-0 sm:m-0 border-gray-300 dark:border-gray-600 sm:h-full min-h-[1px] border-t-[1px] w-full my-4 sm:row-auto row-start-2"></div>
         <FooterForm />
       </div>
       <Branding />
@@ -30,12 +30,16 @@ const MyFooter = () => {
 const NavBar = () => {
   // Generate navigation links
   const elements = NavLinks.map((e) => (
-    <Link to={e.href} key={e.sno}>
+    <Link
+      to={e.href}
+      key={e.sno}
+      className="hover:text-black dark:hover:text-gray-200"
+    >
       {e.title}
     </Link>
   ));
   return (
-    <div className="flex pb-4 flex-row sm:flex-col justify-evenly items-center sm:row-auto row-start-3">
+    <div className="flex pb-4 flex-row sm:flex-col justify-evenly items-center sm:row-auto row-start-3 ">
       {elements}
     </div>
   );
@@ -74,7 +78,7 @@ const FooterForm = () => {
           placeholder="Your Name"
           value={formData.name}
           onChange={handleChange}
-          className="bg-white border-0 p-2 focus:outline-none text-red-500 placeholder:text-red-500 w-full"
+          className="dark:bg-white bg-red-500 border-0 p-2 focus:outline-none dark:text-red-500 dark:placeholder:text-red-500 w-full placeholder:text-white text-white"
           required
         />
       </div>
@@ -85,7 +89,7 @@ const FooterForm = () => {
           placeholder="Your Email"
           value={formData.email}
           onChange={handleChange}
-          className="bg-white border-0 p-2 focus:outline-none text-red-500 placeholder:text-red-500 w-full"
+          className="dark:bg-white bg-red-500 border-0 p-2 focus:outline-none dark:text-red-500 dark:placeholder:text-red-500 w-full placeholder:text-white text-white"
           required
         />
       </div>
@@ -96,7 +100,7 @@ const FooterForm = () => {
           value={formData.message}
           onChange={handleChange}
           rows="4"
-          className="bg-white border-0 w-full p-2 focus:outline-none text-red-500 placeholder:text-red-500"
+          className="dark:bg-white bg-red-500 border-0 p-2 focus:outline-none dark:text-red-500 dark:placeholder:text-red-500 w-full placeholder:text-white text-white max-h-40"
           required
         />
       </div>
@@ -113,15 +117,17 @@ const FooterForm = () => {
 //Bottom most part of webpage
 const Branding = () => {
   return (
-    <div className="text-sm p-4 flex w-full border-t-gray-600 border-t-[1px] items-center justify-center">
+    <div className="text-sm p-4 flex w-full border-t-gray-200 dark:border-t-gray-600 border-t-[1px] items-center justify-center">
       © 2024 Release | Developed by&nbsp;
-      <a
-        href="https://www.instagram.com/anupam_pandey_offline"
-        rel="noreferrer"
-        target="_blank"
-      >
-        Anupam Pandey
-      </a>
+      <button className="group relative overflow-hidden transition-all hover:bg-gradient-to-r hover:to-pink-500 hover:from-yellow-500 hover:text-white py-2 px-4 rounded-md">
+        <a
+          href="https://www.instagram.com/anupam_pandey_offline"
+          rel="noreferrer"
+          target="_blank"
+        >
+          Anupam Pandey
+        </a>
+      </button>
     </div>
   );
 };
