@@ -68,9 +68,11 @@ const FooterForm = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col text-sm items-center w-full sm:w-96 border border-gray-600 px-4 sm:row-auto row-start-1"
+      className="flex flex-col text-sm items-center w-full sm:w-96 border border-gray-600 px-4 sm:row-auto row-start-1 font-spaceGrotesk"
     >
-      <h4 className="mb-4 mt-3 text-xl underline text-w">Get in Touch</h4>
+      <h4 className="mb-4 mt-3 text-xl font-bold font-dancingScript">
+        Get in Touch
+      </h4>
       <div className="mb-4 w-full">
         <input
           type="text"
@@ -117,7 +119,7 @@ const FooterForm = () => {
 //Bottom most part of webpage
 const Branding = () => {
   return (
-    <div className=" text-xs sm:text-sm p-4 flex w-full border-t-gray-200 dark:border-t-gray-600 border-t-[1px] items-center justify-center">
+    <div className=" text-xs sm:text-sm p-4 flex w-full border-t-gray-200 dark:border-t-gray-600 border-t-[1px] items-center justify-center ">
       © 2024 Release | Developed by&nbsp;
       <button className="group relative overflow-hidden transition-all hover:bg-gradient-to-r hover:to-pink-500 hover:from-yellow-500 hover:text-white py-2 px-0 rounded-md">
         <a

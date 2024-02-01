@@ -10,7 +10,7 @@ function App() {
   //Using ThemeContext to set the theme of page
   const { isDarkMode } = useContext(ThemeContext);
   return (
-    <div className={`Wrapper ${isDarkMode ? "dark" : ""}`}>
+    <div className={`Wrapper ${isDarkMode ? "dark" : ""} font-abel `}>
       {/*Route all the pages from main page*/}
       <Router>
         <Routes>

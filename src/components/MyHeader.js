@@ -5,7 +5,7 @@
 
 import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
-import logo from "./logo.svg";
+import logo from "./logo.png";
 import * as Svg from "../SVGlogo";
 import { ThemeContext } from "./ThemeMode";
 
@@ -102,9 +102,9 @@ const Banner = ({ title, href }) => {
       <img
         src={logo}
         alt={title}
-        className="md:h-12 md:w-12 sm:h-10 sm:w-10 h-8 w-8 rounded-full border-2 border-white"
+        className="md:h-12 md:w-12 sm:h-10 sm:w-10 h-8 w-8 rounded-full "
       />
-      <h1 className="text-xl md:text-2xl lg:text-3xl font-extrabold text-red-500 ">
+      <h1 className="text-xl md:text-2xl lg:text-3xl font-extrabold text-red-500  font-dancingScript">
         {title}
       </h1>
     </Link>
