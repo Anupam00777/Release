@@ -10,14 +10,13 @@ import * as Svg from "../SVGlogo";
 import { ThemeContext } from "./ThemeMode";
 
 // Navigation links
-const NavLinks = [
-  { sno: 1, title: "Home", href: "/", onClick: "" },
-  { sno: 2, title: "Trending", href: "/", onClick: "" },
-  { sno: 3, title: "About", href: "/About", onClick: "" },
-];
+let NavLinks = [];
 
 // Header component
-const MyHeader = () => {
+const MyHeader = ({ isSearchBarEnabled, navLinks }) => {
+  //Settings
+  NavLinks = navLinks;
+
   // Getting Theme context for theme change button
 
   const { isDarkMode, toggleDarkMode } = useContext(ThemeContext);
@@ -26,7 +25,6 @@ const MyHeader = () => {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isSearchBarOpen, setSearchBarOpen] = useState(false);
   const [inputValue, setInputValue] = useState("");
-
   //Functions to toggle the above States
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!isMobileMenuOpen);
@@ -49,21 +47,24 @@ const MyHeader = () => {
       {/* Header Section */}
 
       <header className="sticky dark:bg-black bg-white shadow-lg transition-all">
-        <div className="mx-auto container flex lg:justify-evenly justify-between items-center p-3 sm:p-4 md:p-5">
+        <div className="mx-auto container flex  xl:justify-evenly justify-between items-center p-3 sm:p-4 md:p-5">
           {/* Logo and Website Name */}
 
           <Banner title="Release" href={"/"} />
+          <NavBar />
 
-          <div className="flex space-x-2 h-full">
+          <div className={`flex space-x-2 h-full ${""}`}>
             {/* Search Button */}
-
-            <SearchBar
-              toggleSearchBar={toggleSearchBar}
-              isSearchBarOpen={isSearchBarOpen}
-              inputValue={inputValue}
-              setInputValue={setInputValue}
-            />
-
+            {isSearchBarEnabled ? (
+              <SearchBar
+                toggleSearchBar={toggleSearchBar}
+                isSearchBarOpen={isSearchBarOpen}
+                inputValue={inputValue}
+                setInputValue={setInputValue}
+              />
+            ) : (
+              ""
+            )}
             {/* {Dark-Light Mode Toggle Button} */}
 
             <DarkModeBtn
@@ -77,8 +78,6 @@ const MyHeader = () => {
           </div>
 
           {/* Navigation Links */}
-
-          <NavBar />
         </div>
       </header>
 
@@ -214,7 +213,7 @@ const HiddenSideBar = ({ isMobileMenuOpen, toggleMobileMenu }) => {
 //Darkmode button component
 const DarkModeBtn = ({ isDarkMode, toggleDarkMode }) => {
   return (
-    <div className="flex items-center justify-center">
+    <div className="flex items-center justify-center ">
       <button
         onClick={toggleDarkMode}
         id="theme-toggle"

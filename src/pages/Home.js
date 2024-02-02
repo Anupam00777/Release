@@ -5,7 +5,14 @@ import MyHeader from "../components/MyHeader";
 function Home() {
   return (
     <>
-      <MyHeader />
+      <MyHeader
+        isSearchBarEnabled={true}
+        NavLinks={[
+          { sno: 1, title: "Home", href: "/", onClick: "" },
+          { sno: 2, title: "Trending", href: "/", onClick: "" },
+          { sno: 3, title: "About", href: "/About", onClick: "" },
+        ]}
+      />
       <MyFooter />
     </>
   );

@@ -7,16 +7,13 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 //Links to be used for navigation
-const NavLinks = [
-  { sno: 1, title: "Home", href: "/" },
-  { sno: 2, title: "Trending", href: "/" },
-  { sno: 3, title: "About", href: "/About" },
-];
+let NavLinks;
 
 //Main footer component
-const MyFooter = () => {
+const MyFooter = ({ navLinks }) => {
+  NavLinks = navLinks;
   return (
-    <footer className="dark:bg-black bg-white text-red-500  fixed bottom-0 w-full border-t dark:border-0">
+    <footer className="dark:bg-black bg-white text-red-500 w-full border-t dark:border-0">
       <div className="mx-auto footer grid grid-flow-row sm:grid-flow-col my-0 sm:justify-evenly pt-3 px-12 sm:p-4 md:p-5 max-w-[1024px]">
         <NavBar />
         <div className="sm:border-l-[1px] sm:w-0 sm:m-0 border-gray-300 dark:border-gray-600 sm:h-full min-h-[1px] border-t-[1px] w-full my-4 sm:row-auto row-start-2"></div>
@@ -68,7 +65,7 @@ const FooterForm = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col text-sm items-center w-full sm:w-96 border border-gray-600 px-4 sm:row-auto row-start-1 font-spaceGrotesk"
+      className="flex flex-col text-sm items-center w-full sm:w-96 border border-gray-300 dark:border-gray-700 px-4 sm:row-auto row-start-1 font-spaceGrotesk"
     >
       <h4 className="mb-4 mt-3 text-xl font-bold font-dancingScript">
         Get in Touch
@@ -121,7 +118,7 @@ const Branding = () => {
   return (
     <div className=" text-xs sm:text-sm p-4 flex w-full border-t-gray-200 dark:border-t-gray-600 border-t-[1px] items-center justify-center ">
       © 2024 Release | Developed by&nbsp;
-      <button className="group relative overflow-hidden transition-all hover:bg-gradient-to-r hover:to-pink-500 hover:from-yellow-500 hover:text-white py-2 px-0 rounded-md">
+      <button className="group relative overflow-hidden transition-all hover:bg-gradient-to-r hover:to-pink-500 hover:from-yellow-500 hover:text-white p-2 rounded-md font-spaceGrotesk ">
         <a
           href="https://www.instagram.com/anupam_pandey_offline"
           rel="noreferrer"
