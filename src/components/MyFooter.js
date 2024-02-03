@@ -10,14 +10,22 @@ import { Link } from "react-router-dom";
 let NavLinks;
 
 //Main footer component
-const MyFooter = ({ navLinks }) => {
+const MyFooter = ({
+  navLinks,
+  footerNavEnabled = false,
+  footerFormEnabled = true,
+}) => {
   NavLinks = navLinks;
   return (
     <footer className="dark:bg-black bg-white text-red-500 w-full border-t dark:border-0">
-      <div className="mx-auto footer grid grid-flow-row sm:grid-flow-col my-0 sm:justify-evenly pt-3 px-12 sm:p-4 md:p-5 max-w-[1024px]">
-        <NavBar />
-        <div className="sm:border-l-[1px] sm:w-0 sm:m-0 border-gray-300 dark:border-gray-600 sm:h-full min-h-[1px] border-t-[1px] w-full my-4 sm:row-auto row-start-2"></div>
-        <FooterForm />
+      <div className="mx-auto grid grid-flow-row sm:grid-flow-col my-0 sm:justify-evenly  max-w-[1024px] px-12">
+        {footerNavEnabled ? <NavBar /> : ""}
+        {footerFormEnabled && footerNavEnabled ? (
+          <div className="sm:border-l-[1px] sm:w-0 sm:m-0 border-gray-300 dark:border-gray-600 sm:h-full min-h-[1px] border-t-[1px] w-full my-4 sm:row-auto row-start-2"></div>
+        ) : (
+          ""
+        )}
+        {footerFormEnabled ? <FooterForm /> : ""}
       </div>
       <Branding />
     </footer>
@@ -36,7 +44,7 @@ const NavBar = () => {
     </Link>
   ));
   return (
-    <div className="flex pb-4 flex-row sm:flex-col justify-evenly items-center sm:row-auto row-start-3 ">
+    <div className="flex pb-4 flex-row sm:flex-col justify-evenly items-center sm:row-auto row-start-3 mx-12 sm:mt-4 md:mt-5">
       {elements}
     </div>
   );
@@ -65,7 +73,7 @@ const FooterForm = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col text-sm items-center w-full sm:w-96 border border-gray-300 dark:border-gray-700 px-4 sm:row-auto row-start-1 font-spaceGrotesk"
+      className="flex flex-col text-sm items-center w-full sm:w-96 border border-gray-300 dark:border-gray-700 px-4 sm:row-auto row-start-1 font-spaceGrotesk mt-3 sm:m-4 md:m-5"
     >
       <h4 className="mb-4 mt-3 text-xl font-bold font-dancingScript">
         Get in Touch
