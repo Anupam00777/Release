@@ -1,47 +1,20 @@
 import Home from "./pages/Home";
 import About from "./pages/About";
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { ThemeContext } from "./components/ThemeMode";
-import Login from "./pages/Login";
-import CookieHandler from "./components/CookieHandler";
+import Register from "./pages/Register";
+import { UserContext } from "./components/UserDetails";
+import { AlertProvider } from "./components/Alert";
 
 //Main Application to route through different pages
 
 function App() {
   //Using ThemeContext to set the theme of page
   const { isDarkMode } = useContext(ThemeContext);
-  const [loggedIn, setLoggedIn] = useState(false);
-  //Creating a Cookies context to allow lower elements to access values
-  const Cookies = new CookieHandler();
-  const checkLogin = async (callback = null) => {
-    // Asynchronously sending data to server
-    try {
-      const res = await fetch("http://localhost:3001/auto_login", {
-        method: "POST",
-        credentials: "include",
-      });
-      let data = await res.json();
-      data = JSON.parse(data);
-      setLoggedIn(data.loggedIn);
-      console.log(data.loggedIn);
-      if (callback) callback(data.loggedIn);
-      else return data.loggedIn;
-    } catch (error) {
-      console.error("Error Logging In:", error);
-    }
-  };
-  const LoginContext = createContext({ cookies: Cookies, checkLogin });
-
-  //If the Hash expired, then clear cookies data
-  if (!Cookies.exists("hashtoken")) {
-    Cookies.clearAll();
-  }
-  useEffect(() => {
-    checkLogin();
-  }, []);
+  const { loggedIn } = useContext(UserContext);
   return (
-    <LoginContext.Provider value={{ cookies: Cookies, checkLogin }}>
+    <AlertProvider>
       <div
         className={`Wrapper min-h-screen max-h-max ${
           isDarkMode ? "dark" : ""
@@ -56,12 +29,14 @@ function App() {
                 <Route path="/About" exact element={<About />} />
               </>
             ) : (
-              <Route path="/" exact element={<Login />} />
+              <>
+                <Route path="/" exact element={<Register type={0} />} />
+              </>
             )}
           </Routes>
         </Router>
       </div>
-    </LoginContext.Provider>
+    </AlertProvider>
   );
 }
 
