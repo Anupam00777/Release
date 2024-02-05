@@ -1,6 +1,14 @@
+/**
+ * Code from file ThemeMode.js
+ *
+ * This code defines a ThemeMode component in React that creates a context to share theme data throughout the app.
+ * It detects the user's system color scheme and checks for a preferred theme set in the local storage.
+ * The initial theme state is set based on the preferred theme.
+ * It also provides a toggle function to switch between dark and light themes, and stores the preference in the local storage for later use.
+ */
+
 import { useState, createContext } from "react";
 
-//Creating context to share theme data through all of App
 const ThemeContext = createContext();
 
 function ThemeMode({ children }) {

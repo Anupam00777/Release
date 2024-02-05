@@ -6,14 +6,15 @@
 import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "./logo.png";
-import * as Svg from "../SVGlogo";
+import * as Svg from "./SVGlogo";
 import { ThemeContext } from "./ThemeMode";
+import { DarkModeBtn } from "./utilities";
 
 // Navigation links
 let NavLinks = [];
 
 // Header component
-const MyHeader = ({ isSearchBarEnabled, navLinks }) => {
+const MyHeader = ({ isSearchBarEnabled, navLinks, isNavBarEnabled }) => {
   //Settings
   NavLinks = navLinks;
 
@@ -51,7 +52,7 @@ const MyHeader = ({ isSearchBarEnabled, navLinks }) => {
           {/* Logo and Website Name */}
 
           <Banner title="Release" href={"/"} />
-          <NavBar />
+          {isNavBarEnabled ? <NavBar /> : ""}
 
           <div className={`flex space-x-2 h-full ${""}`}>
             {/* Search Button */}
@@ -74,7 +75,7 @@ const MyHeader = ({ isSearchBarEnabled, navLinks }) => {
 
             {/* Mobile Menu Button */}
 
-            <SideBarIcon onClick={toggleMobileMenu} />
+            {isNavBarEnabled ? <SideBarIcon onClick={toggleMobileMenu} /> : ""}
           </div>
 
           {/* Navigation Links */}
@@ -207,22 +208,6 @@ const HiddenSideBar = ({ isMobileMenuOpen, toggleMobileMenu }) => {
         <nav className="flex flex-col items-center">{elements}</nav>
       </div>
     </>
-  );
-};
-
-//Darkmode button component
-const DarkModeBtn = ({ isDarkMode, toggleDarkMode }) => {
-  return (
-    <div className="flex items-center justify-center ">
-      <button
-        onClick={toggleDarkMode}
-        id="theme-toggle"
-        type="button"
-        className="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm "
-      >
-        {!isDarkMode ? <Svg.MoonSVG /> : <Svg.SunSVG />}
-      </button>
-    </div>
   );
 };
 

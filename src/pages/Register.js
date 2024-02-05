@@ -1,3 +1,22 @@
+/* 
+
+This file contains the implementation of a registration form component in a React application. It imports various components and assets, including a custom header and footer, a logo image, and utility functions.
+
+The Register component is a functional component that renders a registration form. It uses state and context hooks to manage form type and display alerts. The initiate_login function handles form submission and sends a request to the server. Upon receiving a response, it displays an alert and redirects the user if the login/signup is successful.
+
+The FormHeader component renders the header section of the form, including a logo and app name.
+
+The Form component is a sub-component of Register and renders the main form section. It includes input fields for email and password, with additional fields for sign up. It also provides options for forgot password and toggling between login and signup forms.
+
+The EmailField and PasswordField components render the respective input fields with labels.
+
+The ForgotPassword component renders a checkbox for remembering the user and a link for password recovery.
+
+The Button component renders a submit button with a dynamic title based on the form type.
+
+Overall, this code implements a registration form with login and signup functionality in a React application.
+*/
+
 import React, { useContext, useRef, useState } from "react";
 import MyHeader from "../components/MyHeader";
 import MyFooter from "../components/MyFooter";
@@ -5,12 +24,13 @@ import logo from "../components/logo.png";
 import { Link } from "react-router-dom";
 import { sendRequest } from "../components/RequestHandler";
 import { AlertContext } from "../components/Alert";
-import { UserContext } from "../components/UserDetails";
+import { BUTTON } from "../components/utilities";
+import data from "../components/data";
 
 export default function Register({ type = 0 }) {
-  const { Cookies } = useContext(UserContext);
-  const { toggleAlert } = useContext(AlertContext);
+  const toggleAlert = useContext(AlertContext);
   const [formType, changeFormType] = useState(type);
+
   const toggleFormType = () => {
     changeFormType(formType ? 0 : 1);
   };
@@ -22,14 +42,23 @@ export default function Register({ type = 0 }) {
     });
 
     sendRequest(
-      formType ? "user_signup" : "user_login",
+      formType ? data.serverPaths.userSignup : data.serverPaths.userLogin,
       "POST",
       {
         "Content-Type": "application/json",
       },
       JSON.stringify(reqBody),
       async (res) => {
-        console.log(await res);
+        const data = await res;
+        const json = await data.json();
+
+        if (json) {
+          toggleAlert(json.type, json.message, 5000);
+          if (json.type === "success")
+            setTimeout(() => {
+              window.location = "/";
+            }, 2000);
+        }
       }
     );
   };
@@ -184,12 +213,5 @@ const ForgotPassword = ({ show }) => {
   );
 };
 const Button = ({ type }) => {
-  return (
-    <button
-      type="submit"
-      className="w-full text-white bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:text-red-500 text-center dark:bg-white dark:hover:bg-gray-300 dark:focus:ring-red-800"
-    >
-      {type ? "Sign Up" : "Log In"}
-    </button>
-  );
+  return <BUTTON type="submit" title={type ? "Sign Up" : "Log In"} />;
 };
