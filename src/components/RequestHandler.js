@@ -1,6 +1,5 @@
 // Handling request and responses from server
-import data from "./data";
-
+import serverPaths from "./manifest.json";
 /**
  * Sends a request to the server asynchronously.
  * @param {string} path - The request path.
@@ -23,33 +22,54 @@ export const sendRequest = async (
       method: method,
       credentials: "include",
       headers: headers,
-      body: body,
+      body: JSON.stringify(body),
     });
   } catch (error) {
     return { error: error };
   }
-  if (callback) callback(res);
-  else return true;
+  if (callback) return callback(await res);
+  else return res;
 };
 
 /**
  * Checks user login by sending a request to the server.
  * @param {Function} callback - The callback function to handle the response.
- * @returns {boolean} - Returns the login status.
+ * @returns {object} - Returns the status object.
  */
 export const checkLogin = async (callback) => {
-  const response = await sendRequest(
-    data.serverPaths.autoLogin,
-    "POST",
-    {},
-    {},
-    async (res) => {
-      let data = await res.json();
-      if (callback) callback(await data);
-      return data.loggedIn;
-    }
-  );
-
-  if (response.error) return { error: response.error };
-  else return;
+  try {
+    return await sendRequest(
+      serverPaths.autoLogin,
+      "POST",
+      {},
+      {},
+      async (res) => {
+        let data = await res.json();
+        if (callback) return callback(await data);
+        else return await data.loggedIn;
+      }
+    );
+  } catch (error) {
+    if (error) return { error: error };
+  }
 };
+
+export const SendUserData = async (userData, path, callback) => {
+  try {
+    return sendRequest(
+      path,
+      "POST",
+      {
+        "Content-Type": "application/json",
+      },
+      userData,
+      async (res) => {
+        return callback(await res);
+      }
+    );
+  } catch (error) {
+    return { error: "Something went wrong" };
+  }
+};
+
+export const GetUserData = () => {};

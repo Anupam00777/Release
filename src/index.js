@@ -12,12 +12,11 @@ root.render(
   <React.StrictMode>
     {/* {Using ThemeMode Component to Wrap the main app} */}
     <ThemeMode>
-      <AlertProvider>
-        {/* {Using UserDetails Component to ensure user data to be accessible for all parts} */}
-        <UserDetails>
-          <App />
-        </UserDetails>
-      </AlertProvider>
+      <AlertProvider />
+      {/* {Using UserDetails Component to ensure user data to be accessible for all parts} */}
+      <UserDetails>
+        <App />
+      </UserDetails>
     </ThemeMode>
   </React.StrictMode>
 );

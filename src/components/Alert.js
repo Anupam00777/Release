@@ -5,13 +5,12 @@
 // It also renders any child components passed to it.
 // The AlertContext is provided to child components so they can call the toggleAlert function to display alerts.
 
-import React, { createContext, useState, useContext, useEffect } from "react";
+import React, { useState } from "react";
 import { InfoSVG } from "./SVGlogo";
 import data from "./data";
 
-export const AlertContext = createContext();
-
-export const AlertProvider = ({ children }) => {
+export let toggleAlert;
+export const AlertProvider = () => {
   const [_Alert, toggle_Alert] = useState(false);
   const [Alert, ToggleAlert] = useState({
     type: "",
@@ -20,7 +19,7 @@ export const AlertProvider = ({ children }) => {
     textColor: "",
   });
 
-  const toggleAlert = (type, message, time) => {
+  toggleAlert = (type, message, time = 2000) => {
     const textColor = data.alertTypeColors[type];
 
     ToggleAlert({
@@ -33,26 +32,24 @@ export const AlertProvider = ({ children }) => {
     toggle_Alert(true);
     setTimeout(() => {
       toggle_Alert(false);
+      ToggleAlert("", "", 0, "");
     }, time);
   };
 
   return (
-    <AlertContext.Provider value={toggleAlert}>
-      <div
-        className={`absolute z-50 top-2 mx-auto right-0 left-0 transition duration-200  ${
-          _Alert ? "" : "-translate-y-20"
-        } w-full max-w-[1024px] flex items-center p-4 mb-4 text-sm ${
-          Alert.textColor
-        } rounded-lg dark:bg-gray-700 bg-gray-50`}
-        role="alert"
-      >
-        <InfoSVG />
-        <span className="sr-only">Info</span>
-        <div>
-          <span className="font-medium">{Alert.message}</span>
-        </div>
+    <div
+      className={`absolute z-50 top-2 mx-auto right-0 left-0 transition duration-200  ${
+        _Alert ? "" : "-translate-y-20"
+      } w-full max-w-[1024px] flex items-center p-4 mb-4 text-sm ${
+        Alert.textColor
+      } rounded-lg dark:bg-primary-dark-800 bg-primary-light-300 border border-black dark:border-white`}
+      role="alert"
+    >
+      <InfoSVG />
+      <span className="sr-only">Info</span>
+      <div>
+        <span className="font-medium">{Alert.message}</span>
       </div>
-      {children}
-    </AlertContext.Provider>
+    </div>
   );
 };

@@ -47,7 +47,7 @@ const MyHeader = ({ isSearchBarEnabled, navLinks, isNavBarEnabled }) => {
     <>
       {/* Header Section */}
 
-      <header className="sticky dark:bg-black bg-white shadow-lg transition-all">
+      <header className="sticky dark:bg-primary-dark bg-primary-light shadow-lg transition-all">
         <div className="mx-auto container flex  xl:justify-evenly justify-between items-center p-3 sm:p-4 md:p-5">
           {/* Logo and Website Name */}
 
@@ -104,7 +104,7 @@ const Banner = ({ title, href }) => {
         alt={title}
         className="md:h-12 md:w-12 sm:h-10 sm:w-10 h-8 w-8 rounded-full "
       />
-      <h1 className="text-xl md:text-2xl lg:text-3xl font-extrabold text-red-500  font-dancingScript">
+      <h1 className="text-xl md:text-2xl lg:text-3xl font-extrabold text-secondary-light  font-dancingScript">
         {title}
       </h1>
     </Link>
@@ -120,7 +120,7 @@ const NavBar = () => {
         to={e.href}
         key={e.sno}
         onClick={e.onClick}
-        className="text-red-500 dark:hover:text-gray-200 hover:text-black text-lg"
+        className="text-secondary-light  hover:text-opacity-75 text-lg"
       >
         {e.title}
       </Link>
@@ -134,7 +134,7 @@ const NavBar = () => {
 const SearchBar = (props) => {
   return (
     <div
-      className={`dark:bg-white dark:text-red-500 bg-red-500 text-white px-0 rounded-full focus:outline-none focus:shadow-outline-blue justify-center items-center flex`}
+      className={`dark:bg-secondary-dark dark:text-secondary-light bg-secondary-light text-primary-light px-0 rounded-full focus:outline-none focus:shadow-outline-blue justify-center items-center flex`}
     >
       {/* {Making search bar contractable in mobile screens} */}
       <div
@@ -144,7 +144,7 @@ const SearchBar = (props) => {
       >
         <input
           type="text"
-          className={`bg-inherit flex outline-0 rounded-full w-full pl-1 dark:placeholder:text-red-500 placeholder:text-white ml-1 placeholder:text-sm sm:placeholder:text-base `}
+          className={`bg-inherit flex outline-0 rounded-full w-full pl-1 dark:placeholder:text-secondary-light placeholder:text-secondary-dark ml-1 placeholder:text-sm sm:placeholder:text-base `}
           placeholder="Search..."
           value={props.inputValue}
           onChange={(e) => {
@@ -179,7 +179,7 @@ const HiddenSideBar = ({ isMobileMenuOpen, toggleMobileMenu }) => {
         to={e.href}
         key={e.sno}
         onClick={e.onClick}
-        className="text-red-500 dark:hover:text-gray-200 hover:text-black text-base sm:text-lg py-3"
+        className="text-secondary-light dark:hover:text-gray-200 hover:text-black text-base sm:text-lg py-3"
       >
         {e.title}
       </Link>
@@ -194,7 +194,7 @@ const HiddenSideBar = ({ isMobileMenuOpen, toggleMobileMenu }) => {
         }`}
       ></div>
       <div
-        className={`fixed top-0 right-0 h-full bg-white z-50 transition-all duration-500 w-1/2 ${
+        className={`fixed top-0 right-0 h-full bg-primary-light z-50 transition-all duration-500 w-1/2 ${
           isMobileMenuOpen ? "" : "!translate-x-full "
         }`}
       >

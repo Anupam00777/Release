@@ -1,8 +1,9 @@
 //Handling user queries on client and synchronising them to server
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import CookieHandler from "./CookieHandler";
-import { checkLogin } from "./RequestHandler";
-import { AlertContext } from "./Alert";
+import { SendUserData, checkLogin } from "./RequestHandler";
+import { toggleAlert } from "./Alert";
+import serverPaths from "./manifest.json";
 
 export const UserContext = createContext();
 
@@ -12,11 +13,10 @@ export default function UserDetails({ children }) {
   const [loggedIn, setLoggedIn] = useState(Cookies.get("loggedIn"));
   const [hashtoken, updateHash] = useState();
 
-  const toggleAlert = useContext(AlertContext);
-
   useEffect(() => {
     //Check for user login status and attempting auto login
     const updateLoginStatus = async () => {
+      if (!Cookies.exists("loggedIn")) return;
       if (!Cookies.get("loggedIn")) {
         if (Cookies.exists("hashtoken")) Cookies.remove("hashtoken");
       }
@@ -24,11 +24,15 @@ export default function UserDetails({ children }) {
       try {
         const login = await checkLogin((data) => {
           setLoggedIn(data.loggedIn);
+          updateHash(Cookies.get("hashtoken"));
+          return data;
         });
-        if (login.error)
-          toggleAlert("error", "Error trying to connect to server.", 5000);
+
+        if (login.type)
+          toggleAlert(login.type, login.message, login.time || 2000);
       } catch (error) {
-        console.error("Error: ", error);
+        toggleAlert("error", "Error trying to connect to server.", 3000);
+        console.error(error);
       }
     };
     //If the Hash expired, then clear cookies data
@@ -41,9 +45,44 @@ export default function UserDetails({ children }) {
   );
 }
 
-//Logout the user form the app
 export const UserLogOut = () => {
   Cookies.remove("hashtoken");
-  Cookies.set("loggedIn", false);
+  Cookies.remove("loggedIn");
   window.location = "/";
+};
+
+export const UserLogin = (user) => {
+  try {
+    SendUserData(user, serverPaths.userLogin, async (res) => {
+      const data = await res;
+      const json = await data.json();
+
+      if (json) {
+        toggleAlert(json.type, json.message, json.time || 2000);
+        if (json.type === "success")
+          setTimeout(() => {
+            window.location = "/";
+          }, 2000);
+      } else return false;
+    });
+  } catch (error) {
+    toggleAlert("error", "Error: Cannot Login");
+  }
+};
+
+export const UserSignup = (user) => {
+  try {
+    SendUserData(user, serverPaths.userSignup, async (res) => {
+      const json = await res.json();
+      if (json) {
+        toggleAlert(json.type, json.message, json.time || 2000);
+        if (json.type === "success")
+          setTimeout(() => {
+            window.location = "/";
+          }, 2000);
+      } else return false;
+    });
+  } catch (error) {
+    toggleAlert("error", "Error: Cannot SignUp");
+  }
 };

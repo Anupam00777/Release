@@ -7,6 +7,7 @@ import Register from "./pages/Register";
 import { UserContext } from "./components/UserDetails";
 import Settings from "./pages/Settings";
 import data from "./components/data";
+import MyProfile from "./pages/Profile";
 //Main Application to route through different pages
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
             <>
               <Route path="/" exact element={<Home />} />
               <Route path="/About" exact element={<About />} />
+              <Route path="/Profile" exact element={<MyProfile />} />
               <Route
                 path="/Settings"
                 exact

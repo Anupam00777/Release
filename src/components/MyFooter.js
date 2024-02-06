@@ -18,7 +18,7 @@ const MyFooter = ({
 }) => {
   NavLinks = navLinks;
   return (
-    <footer className="dark:bg-black bg-white text-red-500 w-full border-t dark:border-0">
+    <footer className="dark:bg-primary-dark bg-primary-light text-secondary-light w-full border-t dark:border-0">
       <div className="mx-auto grid grid-flow-row sm:grid-flow-col my-0 sm:justify-evenly  max-w-[1024px] px-12">
         {footerNavEnabled ? (
           <NavBar footerFormEnabled={footerFormEnabled} />
@@ -43,7 +43,7 @@ const NavBar = ({ footerFormEnabled }) => {
     <Link
       to={e.href}
       key={e.sno}
-      className="hover:text-black dark:hover:text-gray-200"
+      className="hover:text-primary-dark dark:hover:text-primary-light"
     >
       {e.title}
     </Link>
@@ -96,7 +96,7 @@ const FooterForm = () => {
           placeholder="Your Name"
           value={formData.name}
           onChange={handleChange}
-          className="dark:bg-white bg-red-500 border-0 p-2 focus:outline-none dark:text-red-500 dark:placeholder:text-red-500 w-full placeholder:text-white text-white"
+          className="dark:bg-primary-light bg-secondary-light border-0 p-2 focus:outline-none dark:text-secondary-light dark:placeholder:text-secondary-light w-full placeholder:text-primary-light text-primary-light"
           required
         />
       </div>
@@ -107,7 +107,7 @@ const FooterForm = () => {
           placeholder="Your Email"
           value={formData.email}
           onChange={handleChange}
-          className="dark:bg-white bg-red-500 border-0 p-2 focus:outline-none dark:text-red-500 dark:placeholder:text-red-500 w-full placeholder:text-white text-white"
+          className="dark:bg-primary-light bg-secondary-light border-0 p-2 focus:outline-none dark:text-secondary-light dark:placeholder:text-secondary-light w-full placeholder:text-primary-light text-primary-light"
           required
         />
       </div>
@@ -118,7 +118,7 @@ const FooterForm = () => {
           value={formData.message}
           onChange={handleChange}
           rows="4"
-          className="dark:bg-white bg-red-500 border-0 p-2 focus:outline-none dark:text-red-500 dark:placeholder:text-red-500 w-full placeholder:text-white text-white max-h-40"
+          className="dark:bg-primary-light bg-secondary-light border-0 p-2 focus:outline-none dark:text-secondary-light dark:placeholder:text-secondary-light w-full placeholder:text-primary-light text-primary-light max-h-40"
           required
         />
       </div>
@@ -132,7 +132,7 @@ const Branding = () => {
   return (
     <div className=" text-xs sm:text-sm p-4 flex w-full border-t-gray-200 dark:border-t-gray-600 border-t-[1px] items-center justify-center ">
       © 2024 Release | Developed by&nbsp;
-      <button className="group relative overflow-hidden transition-all hover:bg-gradient-to-r hover:to-pink-500 hover:from-yellow-500 hover:text-white p-2 rounded-md font-spaceGrotesk ">
+      <button className="group relative overflow-hidden transition-all hover:bg-gradient-to-r hover:to-pink-500 hover:from-yellow-500 hover:text-primary-light p-2 rounded-md font-spaceGrotesk ">
         <a
           href="https://www.instagram.com/anupam_pandey_offline"
           rel="noreferrer"

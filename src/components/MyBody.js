@@ -3,7 +3,7 @@ import React from "react";
 
 function MyBody({ children }) {
   return (
-    <main className="flex flex-1 flex-col bg-gray-50 dark:bg-gray-950">
+    <main className="flex flex-1 flex-col bg-primary-light-900 dark:bg-primary-dark-900">
       {children}
     </main>
   );

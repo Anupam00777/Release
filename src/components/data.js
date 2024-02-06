@@ -18,18 +18,31 @@ const data = {
 
   // Bottom menu names and components
   BottomMenuIcons: {
-    className: "hover:fill-red-700 fill-red-500",
+    className: "hover:fill-secondary-light-900 fill-secondary-light",
     entities: [
-      { sno: 1, title: "Home", href: "/", entity: <HomeSVG /> },
-      { sno: 2, title: "Notification", href: "/", entity: <NotificationSVG /> },
-      { sno: 3, title: "Profile", href: "/", entity: <ProfileSVG /> },
-      { sno: 4, title: "Settings", href: "/Settings", entity: <SettingsSVG /> },
+      { sno: 1, title: "Home", onClick: "", href: "/", entity: <HomeSVG /> },
+      {
+        sno: 2,
+        title: "Notification",
+        onClick: "",
+        href: "/",
+        entity: <NotificationSVG />,
+      },
+      {
+        sno: 3,
+        title: "Profile",
+        onClick: "",
+        href: "/Profile",
+        entity: <ProfileSVG />,
+      },
+      {
+        sno: 4,
+        title: "Settings",
+        onClick: "",
+        href: "/Settings",
+        entity: <SettingsSVG />,
+      },
     ],
-  },
-
-  // Main server address
-  serverPaths: {
-    server: "http://localhost:3001/",
   },
 
   // Object to be passed to SettingsOBJ in the Settings page. Contains all the options in the settings page, and what they do
@@ -66,10 +79,5 @@ const data = {
     success: "text-green-500",
   },
 };
-
-// Mapping the path of server and its routes.
-data.serverPaths.autoLogin = data.serverPaths.server + "auto_login";
-data.serverPaths.userLogin = data.serverPaths.server + "user_login";
-data.serverPaths.userSignup = data.serverPaths.server + "user_signup";
 
 export default data;

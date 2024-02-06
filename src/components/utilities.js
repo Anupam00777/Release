@@ -2,10 +2,11 @@
  * This file contains utility functions for a React application.
  */
 
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import * as Svg from "./SVGlogo";
 import { Link } from "react-router-dom";
 import { TECollapse } from "tw-elements-react";
+import { ThemeContext } from "./ThemeMode";
 
 /**
  * BUTTON component represents a button element with customizable properties.
@@ -25,7 +26,7 @@ export const BUTTON = ({
   return (
     <button
       type={type}
-      className={`w-full text-white bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5  text-center dark:focus:ring-red-800 ${extraClass}`}
+      className={`w-full text-primary-light bg-secondary-light hover:bg-secondary-light-800 focus:ring-4 focus:outline-none focus:ring-secondary-light-700 font-medium rounded-lg text-sm px-5 py-2.5  text-center dark:focus:ring-secondary-light-900 ${extraClass}`}
       onClick={onClick}
     >
       {title}
@@ -40,7 +41,8 @@ export const BUTTON = ({
  * @param {function} toggleDarkMode - Function to toggle dark mode.
  * @returns {JSX.Element} - The rendered dark mode button component.
  */
-export const DarkModeBtn = ({ isDarkMode, toggleDarkMode }) => {
+export const DarkModeBtn = () => {
+  const { toggleDarkMode, isDarkMode } = useContext(ThemeContext);
   return (
     <div className="flex items-center justify-center ">
       <button
@@ -111,7 +113,8 @@ export const DropdownOption = ({ title = "Drop Down", elements }) => {
       <h2 className="mb-0 py-3 px-5" id="headingOne">
         <button
           className={`${
-            activeElement === "element1" && `text-black  dark:!text-white`
+            activeElement === "element1" &&
+            `text-primary-dark  dark:!text-primary-light`
           } group relative flex w-full items-center rounded-t-[15px] [overflow-anchor:none] hover:z-[2] focus:z-[3] focus:outline-none font-spaceGrotesk`}
           type="button"
           onClick={() => handleClick("element1")}
@@ -166,5 +169,21 @@ export const ToggleButton = ({ checked = true, onClick }) => {
       <input type="checkbox" value="" className="sr-only peer" />
       <div className="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-red-300 dark:peer-focus:ring-red-800 dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-red-600"></div>
     </label>
+  );
+};
+
+export const HeadRibbon = ({ title }) => {
+  return (
+    <div className="w-full border-primary-light-500 dark:border-primary-light-100 flex p-2 sm:p-4 text-lg sm:text-xl xl:text-2xl font-poppins justify-between sticky border-b my-2">
+      <div className="flex  space-x-2 ">
+        <Link to={"/"} className="flex items-center">
+          <Svg.BackSVG />
+        </Link>
+        <h1>{title}</h1>
+      </div>
+      <div className="">
+        <DarkModeBtn />
+      </div>
+    </div>
   );
 };

@@ -22,13 +22,10 @@ import MyHeader from "../components/MyHeader";
 import MyFooter from "../components/MyFooter";
 import logo from "../components/logo.png";
 import { Link } from "react-router-dom";
-import { sendRequest } from "../components/RequestHandler";
-import { AlertContext } from "../components/Alert";
 import { BUTTON } from "../components/utilities";
-import data from "../components/data";
+import { UserLogin, UserSignup } from "../components/UserDetails";
 
 export default function Register({ type = 0 }) {
-  const toggleAlert = useContext(AlertContext);
   const [formType, changeFormType] = useState(type);
 
   const toggleFormType = () => {
@@ -40,27 +37,7 @@ export default function Register({ type = 0 }) {
     formData.forEach((value, key) => {
       reqBody[key] = value;
     });
-
-    sendRequest(
-      formType ? data.serverPaths.userSignup : data.serverPaths.userLogin,
-      "POST",
-      {
-        "Content-Type": "application/json",
-      },
-      JSON.stringify(reqBody),
-      async (res) => {
-        const data = await res;
-        const json = await data.json();
-
-        if (json) {
-          toggleAlert(json.type, json.message, 5000);
-          if (json.type === "success")
-            setTimeout(() => {
-              window.location = "/";
-            }, 2000);
-        }
-      }
-    );
+    return formType ? UserSignup(reqBody) : UserLogin(reqBody);
   };
 
   return (

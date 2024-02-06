@@ -9,7 +9,7 @@
 
 # production
 /build
-
+/firebase
 #backend
 /src/scripts
 

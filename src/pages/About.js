@@ -14,7 +14,11 @@ import MyBody from "../components/MyBody";
 export default function About() {
   return (
     <>
-      <MyHeader isSearchBarEnabled={false} navLinks={data.HeaderNav} />
+      <MyHeader
+        isSearchBarEnabled={false}
+        navLinks={data.HeaderNav}
+        isNavBarEnabled={true}
+      />
       <MyBody>Hello</MyBody>
       <MyFooter
         footerNavEnabled

@@ -21,5 +21,11 @@
   "start_url": ".",
   "display": "standalone",
   "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "background_color": "#ffffff",
+  "serverPaths": {
+    "server": "https://release-web-app.web.app/",
+    "autoLogin": "https://release-web-app.web.app/auto_login",
+    "userLogin": "https://release-web-app.web.app/user_login",
+    "userSignup": "https://release-web-app.web.app/user_signup"
+  }
 }
