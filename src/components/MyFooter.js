@@ -10,7 +10,14 @@ import { BUTTON } from "./utilities";
 //Links to be used for navigation
 let NavLinks;
 
-//Main footer component
+/**
+ * Main footer component
+ * @param {Object} props - Component props
+ * @param {Array} props.navLinks - Array of navigation links
+ * @param {boolean} props.footerNavEnabled - Flag to enable/disable footer navigation
+ * @param {boolean} props.footerFormEnabled - Flag to enable/disable footer form
+ * @returns {JSX.Element} Footer component
+ */
 const MyFooter = ({
   navLinks,
   footerNavEnabled = false,
@@ -19,7 +26,7 @@ const MyFooter = ({
   NavLinks = navLinks;
   return (
     <footer className="dark:bg-primary-dark bg-primary-light text-secondary-light w-full border-t dark:border-0">
-      <div className="mx-auto grid grid-flow-row sm:grid-flow-col my-0 sm:justify-evenly  max-w-[1024px] px-12">
+      <div className="mx-auto grid grid-flow-row sm:grid-flow-col my-0 sm:justify-evenly max-w-[1024px] px-12">
         {footerNavEnabled ? (
           <NavBar footerFormEnabled={footerFormEnabled} />
         ) : (
@@ -37,6 +44,12 @@ const MyFooter = ({
   );
 };
 
+/**
+ * Navigation bar component
+ * @param {Object} props - Component props
+ * @param {boolean} props.footerFormEnabled - Flag to enable/disable footer form
+ * @returns {JSX.Element} Navigation bar component
+ */
 const NavBar = ({ footerFormEnabled }) => {
   // Generate navigation links
   const elements = NavLinks.map((e) => (
@@ -50,10 +63,10 @@ const NavBar = ({ footerFormEnabled }) => {
   ));
   return (
     <div
-      className={`flex pb-4 flex-row  justify-evenly items-center  ${
+      className={`flex pb-4 flex-row justify-evenly items-center ${
         footerFormEnabled
           ? "sm:flex-col sm:row-auto"
-          : " w-full place-self-center mt-4"
+          : "w-full place-self-center mt-4"
       } row-start-3 mx-12 sm:mt-4 md:mt-5`}
     >
       {elements}
@@ -61,7 +74,10 @@ const NavBar = ({ footerFormEnabled }) => {
   );
 };
 
-//Form to send a message
+/**
+ * Form to send a message
+ * @returns {JSX.Element} Footer form component
+ */
 const FooterForm = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -69,15 +85,22 @@ const FooterForm = () => {
     message: "",
   });
 
+  /**
+   * Handle input change
+   * @param {Object} e - Input change event
+   */
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
+  /**
+   * Handle form submission
+   * @param {Object} e - Form submission event
+   */
   const handleSubmit = (e) => {
     e.preventDefault();
     // Handle form submission logic here
-    console.log("Form submitted:", formData);
     // You can add your logic to send the message or perform any other action
   };
 
@@ -127,12 +150,15 @@ const FooterForm = () => {
   );
 };
 
-//Bottom most part of webpage
+/**
+ * Branding information component
+ * @returns {JSX.Element} Branding component
+ */
 const Branding = () => {
   return (
-    <div className=" text-xs sm:text-sm p-4 flex w-full border-t-gray-200 dark:border-t-gray-600 border-t-[1px] items-center justify-center ">
+    <div className="text-xs sm:text-sm p-4 flex w-full border-t-gray-200 dark:border-t-gray-600 border-t-[1px] items-center justify-center">
       © 2024 Release | Developed by&nbsp;
-      <button className="group relative overflow-hidden transition-all hover:bg-gradient-to-r hover:to-pink-500 hover:from-yellow-500 hover:text-primary-light p-2 rounded-md font-spaceGrotesk ">
+      <button className="group relative overflow-hidden transition-all hover:bg-gradient-to-r hover:to-pink-500 hover:from-yellow-500 hover:text-primary-light p-2 rounded-md font-spaceGrotesk">
         <a
           href="https://www.instagram.com/anupam_pandey_offline"
           rel="noreferrer"

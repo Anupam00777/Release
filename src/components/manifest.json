@@ -1,9 +1,0 @@
-{
-  "serverPaths": {
-    "server": "https://release-web-app.web.app/",
-    "autoLogin": "https://release-web-app.web.app/auto_login",
-    "userLogin": "https://release-web-app.web.app/user_login",
-    "userSignup": "https://release-web-app.web.app/user_signup"
-  },
-  "access": null
-}

@@ -7,13 +7,16 @@ import { ThemeMode } from "./components/ThemeMode";
 import UserDetails from "./components/UserDetails";
 import { AlertProvider } from "./components/Alert";
 
+// Create a root for rendering the React application
 const root = ReactDOM.createRoot(document.getElementById("root"));
+
+// Render the application within a React StrictMode
 root.render(
   <React.StrictMode>
-    {/* {Using ThemeMode Component to Wrap the main app} */}
+    {/* Use ThemeMode Component to Wrap the main app */}
     <ThemeMode>
       <AlertProvider />
-      {/* {Using UserDetails Component to ensure user data to be accessible for all parts} */}
+      {/* Use UserDetails Component to ensure user data accessibility for all parts */}
       <UserDetails>
         <App />
       </UserDetails>
@@ -21,4 +24,5 @@ root.render(
   </React.StrictMode>
 );
 
+// Report web vitals
 reportWebVitals();

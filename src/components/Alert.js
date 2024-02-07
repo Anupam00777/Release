@@ -9,7 +9,14 @@ import React, { useState } from "react";
 import { InfoSVG } from "./SVGlogo";
 import data from "./data";
 
-export let toggleAlert;
+/**
+ *
+ * @param {String} type - error | info | warning | success
+ * @param {String} message - Message to display
+ * @param {Number} time - Timer of alert before it closes automatically
+ * @returns {void} void
+ */
+export let toggleAlert = (type, message, time = 2000) => {};
 export const AlertProvider = () => {
   const [_Alert, toggle_Alert] = useState(false);
   const [Alert, ToggleAlert] = useState({
@@ -19,6 +26,7 @@ export const AlertProvider = () => {
     textColor: "",
   });
 
+  // Function to toggle alert and set its content
   toggleAlert = (type, message, time = 2000) => {
     const textColor = data.alertTypeColors[type];
 
@@ -37,12 +45,13 @@ export const AlertProvider = () => {
   };
 
   return (
+    // Render a div to display the alert message and an SVG icon
     <div
       className={`absolute z-50 top-2 mx-auto right-0 left-0 transition duration-200  ${
         _Alert ? "" : "-translate-y-20"
       } w-full max-w-[1024px] flex items-center p-4 mb-4 text-sm ${
         Alert.textColor
-      } rounded-lg dark:bg-primary-dark-800 bg-primary-light-300 border border-black dark:border-white`}
+      } rounded-lg bg-primary-light  border border-black dark:border-white`}
       role="alert"
     >
       <InfoSVG />

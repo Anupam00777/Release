@@ -172,16 +172,25 @@ export const ToggleButton = ({ checked = true, onClick }) => {
   );
 };
 
+/**
+ * HeadRibbon component represents a ribbon at the top of a page.
+ * It typically contains a title, a back button, and a dark mode toggle button.
+ * @param {string} title - The title to display on the ribbon.
+ * @returns {JSX.Element} - Returns JSX for the HeadRibbon component.
+ */
 export const HeadRibbon = ({ title }) => {
   return (
     <div className="w-full border-primary-light-500 dark:border-primary-light-100 flex p-2 sm:p-4 text-lg sm:text-xl xl:text-2xl font-poppins justify-between sticky border-b my-2">
-      <div className="flex  space-x-2 ">
+      <div className="flex space-x-2 ">
+        {/* Link to navigate back to home */}
         <Link to={"/"} className="flex items-center">
           <Svg.BackSVG />
         </Link>
+        {/* Title of the page */}
         <h1>{title}</h1>
       </div>
       <div className="">
+        {/* Dark mode toggle button */}
         <DarkModeBtn />
       </div>
     </div>

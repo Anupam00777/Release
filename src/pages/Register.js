@@ -1,36 +1,46 @@
-/* 
+/**
+ * This file contains the implementation of a registration form component in a React application.
+ * It imports various components and assets, including a custom header and footer, a logo image, and utility functions.
+ * The Register component is a functional component that renders a registration form.
+ * It uses state and context hooks to manage form type and display alerts.
+ * The initiate_login function handles form submission and sends a request to the server.
+ * Upon receiving a response, it displays an alert and redirects the user if the login/signup is successful.
+ * The FormHeader component renders the header section of the form, including a logo and app name.
+ * The Form component is a sub-component of Register and renders the main form section.
+ * It includes input fields for email and password, with additional fields for sign up.
+ * It also provides options for forgot password and toggling between login and signup forms.
+ * The EmailField and PasswordField components render the respective input fields with labels.
+ * The ForgotPassword component renders a checkbox for remembering the user and a link for password recovery.
+ * The Button component renders a submit button with a dynamic title based on the form type.
+ */
 
-This file contains the implementation of a registration form component in a React application. It imports various components and assets, including a custom header and footer, a logo image, and utility functions.
-
-The Register component is a functional component that renders a registration form. It uses state and context hooks to manage form type and display alerts. The initiate_login function handles form submission and sends a request to the server. Upon receiving a response, it displays an alert and redirects the user if the login/signup is successful.
-
-The FormHeader component renders the header section of the form, including a logo and app name.
-
-The Form component is a sub-component of Register and renders the main form section. It includes input fields for email and password, with additional fields for sign up. It also provides options for forgot password and toggling between login and signup forms.
-
-The EmailField and PasswordField components render the respective input fields with labels.
-
-The ForgotPassword component renders a checkbox for remembering the user and a link for password recovery.
-
-The Button component renders a submit button with a dynamic title based on the form type.
-
-Overall, this code implements a registration form with login and signup functionality in a React application.
-*/
-
-import React, { useContext, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import MyHeader from "../components/MyHeader";
 import MyFooter from "../components/MyFooter";
 import logo from "../components/logo.png";
 import { Link } from "react-router-dom";
 import { BUTTON } from "../components/utilities";
-import { UserLogin, UserSignup } from "../components/UserDetails";
+import { UserLogin, UserSignup } from "../components/RequestHandler";
 
+/**
+ * Register component renders a registration form.
+ * @param {number} type - Type of form: 0 for login, 1 for signup.
+ * @returns {JSX.Element} Registration form component.
+ */
 export default function Register({ type = 0 }) {
   const [formType, changeFormType] = useState(type);
 
+  /**
+   * Toggles between login and signup form types.
+   */
   const toggleFormType = () => {
     changeFormType(formType ? 0 : 1);
   };
+
+  /**
+   * Initiates login or signup based on the form type.
+   * @param {object} form - Reference to the form element.
+   */
   const initiate_login = (form) => {
     const formData = new FormData(form.current);
     let reqBody = {};
@@ -58,6 +68,10 @@ export default function Register({ type = 0 }) {
   );
 }
 
+/**
+ * FormHeader component renders the header section of the form, including a logo and app name.
+ * @returns {JSX.Element} Header section of the form.
+ */
 const FormHeader = () => {
   return (
     <div className="pb-6 w-full flex items-center justify-center">
@@ -65,23 +79,35 @@ const FormHeader = () => {
         to="/"
         className="flex items-center text-4xl font-semibold text-red-500 justify-center"
       >
-        <img src={logo} className=" h-16 mr-5" alt="" />
-        <h1 className=" font-dancingScript">Release</h1>
+        <img src={logo} className="h-16 mr-5" alt="" />
+        <h1 className="font-dancingScript">Release</h1>
       </Link>
     </div>
   );
 };
 
-//@type 0 for LogIn, 1 for SignIn
+/**
+ * Form component renders the main form section.
+ * @param {Object} type - Type of form: 0 for login, 1 for signup.
+ * @param {Function} action - Function to handle form submission.
+ * @param {Function} changeFormType - Function to toggle form type.
+ * @returns {JSX.Element} Main form section.
+ */
 const Form = ({ type = 1, action, changeFormType }) => {
   const FORM = useRef();
+
+  /**
+   * Handles form submission.
+   * @param {Object} e - Event object.
+   */
   const submitAction = (e) => {
     e.preventDefault();
     action(FORM);
   };
+
   return (
     <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-      <h1 className="text-base font-bold leading-tight tracking-tight  md:text-lg text-red-500">
+      <h1 className="text-base font-bold leading-tight tracking-tight md:text-lg text-red-500">
         {type ? "Sign Up for an" : "Log In to your"} account
       </h1>
       <form
@@ -96,11 +122,9 @@ const Form = ({ type = 1, action, changeFormType }) => {
         ) : (
           ""
         )}
-
         <ForgotPassword show={type} />
         <Button type={type} />
-
-        <p className="text-sm font-light text-red-500 ">
+        <p className="text-sm font-light text-red-500">
           {type ? "Already Registered? " : "Don't have an account yet? "}
           <Link
             to={"/"}
@@ -115,6 +139,11 @@ const Form = ({ type = 1, action, changeFormType }) => {
   );
 };
 
+/**
+ * EmailField component renders an email input field.
+ * @param {string} name - Name attribute for the input field.
+ * @returns {JSX.Element} Email input field.
+ */
 const EmailField = ({ name = "email" }) => {
   return (
     <div>
@@ -128,13 +157,20 @@ const EmailField = ({ name = "email" }) => {
         type="email"
         name={name}
         id="email"
-        className="  sm:text-sm rounded-lg  block w-full p-2.5 dark:bg-white bg-red-500 focus:outline-none dark:text-red-500 dark:placeholder:text-red-500  placeholder:text-white text-white"
+        className="sm:text-sm rounded-lg block w-full p-2.5 dark:bg-white bg-red-500 focus:outline-none dark:text-red-500 dark:placeholder:text-red-500 placeholder:text-white text-white"
         placeholder="name@email.com"
         required={true}
       />
     </div>
   );
 };
+
+/**
+ * PasswordField component renders a password input field.
+ * @param {string} name - Name attribute for the input field.
+ * @param {string} label - Label for the input field.
+ * @returns {JSX.Element} Password input field.
+ */
 const PasswordField = ({ name = "password", label = "Password" }) => {
   return (
     <div>
@@ -149,33 +185,21 @@ const PasswordField = ({ name = "password", label = "Password" }) => {
         name={name}
         id={name}
         placeholder="••••••••"
-        className=" sm:text-sm rounded-lg   block w-full p-2.5 dark:bg-white bg-red-500 focus:outline-none dark:text-red-500 dark:placeholder:text-red-500  placeholder:text-white text-white"
+        className="sm:text-sm rounded-lg block w-full p-2.5 dark:bg-white bg-red-500 focus:outline-none dark:text-red-500 dark:placeholder:text-red-500 placeholder:text-white text-white"
         required={true}
       />
     </div>
   );
 };
+
+/**
+ * ForgotPassword component renders a checkbox for remembering the user and a link for password recovery.
+ * @param {boolean} show - Determines whether to show the forgot password link.
+ * @returns {JSX.Element} Forgot password component.
+ */
 const ForgotPassword = ({ show }) => {
   return (
-    <div className="flex items-center justify-between">
-      <div className="flex items-start">
-        <div className="flex items-center h-5">
-          <input
-            id="remember"
-            name="remember"
-            aria-describedby="remember"
-            type="checkbox"
-            className="w-4 h-4 border border-red-300 rounded bg-red-500 focus:ring-3 focus:ring-red-300 dark:bg-red-700 dark:border-red-600 dark:focus:ring-red-600 dark:ring-offset-red-800"
-            required=""
-          />
-        </div>
-        <div className="ml-3 text-sm">
-          <label htmlFor="remember" className="text-red-500 ">
-            Remember me
-          </label>
-        </div>
-      </div>
-
+    <div className="flex items-center justify-start">
       {show ? (
         ""
       ) : (
@@ -189,6 +213,12 @@ const ForgotPassword = ({ show }) => {
     </div>
   );
 };
+
+/**
+ * Button component renders a submit button with a dynamic title based on the form type.
+ * @param {number} type - Type of form: 0 for login, 1 for signup.
+ * @returns {JSX.Element} Submit button component.
+ */
 const Button = ({ type }) => {
   return <BUTTON type="submit" title={type ? "Sign Up" : "Log In"} />;
 };

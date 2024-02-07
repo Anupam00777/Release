@@ -8,10 +8,11 @@
 /coverage
 
 # production
-/build
-/firebase
+/build 
 #backend
-/src/scripts
+
+/src/firebaseconfig.js
+.env 
 
 # misc
 .DS_Store
