@@ -1,9 +1,9 @@
 const express = require("express");
-const dotenv = require("dotenv");
-const dotenvExpand = require("dotenv-expand");
+// const dotenv = require("dotenv");
+// const dotenvExpand = require("dotenv-expand");
 // Load environment variables from .env file
-const myEnv = dotenv.config();
-dotenvExpand.expand(myEnv);
+// const myEnv = dotenv.config();
+// dotenvExpand.expand(myEnv);
 const {
   generateJWT,
   authenticateUser,
