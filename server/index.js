@@ -1,7 +1,7 @@
 const { auto_login, user_signup, user_login, test } = require("./app");
 
 module.exports = async (req, res) => {
-  const { pathname } = new URL(req.url, "http://localhost");
+  const { pathname } = new URL(req.url, process.env.PUBLIC_URL);
 
   if (pathname === "/auto_login") {
     return await auto_login(req, res);
