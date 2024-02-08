@@ -1,5 +1,5 @@
 const express = require("express");
-require("dotenv").config({ path: "../.env" });
+// require("dotenv").config({ path: "../.env" });
 const {
   generateJWT,
   authenticateUser,
@@ -104,13 +104,13 @@ app.post("/user_login", async (req, res) => {
   }
 });
 
-// // Serve static files from the 'public' directory
-// app.use(express.static(path.join(__dirname, "public")));
+// Serve static files from the 'public' directory
+app.use(express.static(path.join(__dirname, "public")));
 
-// // Serve index.html for all other routes
-// app.get("*", (req, res) => {
-//   res.sendFile(path.join(__dirname, "public", "index.html"));
-// });
+// Serve index.html for all other routes
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
 
 // Start the app
 module.exports = app;
