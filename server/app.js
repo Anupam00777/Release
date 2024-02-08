@@ -2,7 +2,7 @@ const { generateJWT, authenticateUser } = require("./authenticator");
 const { entryExist, addEntry, modifyEntry } = require("./db/userData");
 
 module.exports.test = async (req, res) => {
-  return res.status(200).json({ Message: "Server is working" });
+  return res.status(200).json({ Message: "Server is now working" });
 };
 
 // Route for auto-login
