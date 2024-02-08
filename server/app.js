@@ -5,7 +5,7 @@ const {
   authenticateUser,
   checkPasswordStrength,
 } = require("./authenticator");
-const cors = require("cors");
+// const cors = require("cors");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const { entryExist, addEntry, modifyEntry } = require("./db/userData");
@@ -17,18 +17,18 @@ const app = express();
 app.use(cookieParser()); // Parse cookies
 app.use(express.json()); // Parse JSON bodies
 
-// CORS configuration
-const corsOptions = {
-  origin: process.env.REACT_APP_APP, // Replace with your React app's URL
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-  credentials: true,
-  optionsSuccessStatus: 204,
-};
-app.use(cors(corsOptions)); // Enable CORS for specified origin
+// // CORS configuration
+// const corsOptions = {
+//   origin: process.env.REACT_APP_APP, // Replace with your React app's URL
+//   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+//   credentials: true,
+//   optionsSuccessStatus: 204,
+// };
+// app.use(cors(corsOptions)); // Enable CORS for specified origin
 
 // Route for testing
 app.get("/test", (req, res) => {
-  res.sendFile("Hey");
+  res.send("Hey");
 });
 
 // Route for user auto login
