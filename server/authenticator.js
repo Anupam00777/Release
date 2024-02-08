@@ -3,6 +3,7 @@ const { entryExist, validatePassword } = require("./db/userData");
 
 // Secret key for JWT signing
 const secret = process.env.JWT_SIGN_KEY;
+const jwtAlgorithm = process.env.JWT_SIGN_ALGORITHM;
 
 /**
  * Generates a JSON Web Token (JWT) for a given email.
@@ -17,7 +18,7 @@ const generateJWT = (email) => {
   };
 
   const token = jwt.sign(payload, secret, {
-    algorithm: process.env.JWT_SIGN_ALGORITHM,
+    algorithm: jwtAlgorithm,
   });
   return token;
 };
@@ -30,11 +31,12 @@ const generateJWT = (email) => {
 const decodeJWT = (token) => {
   try {
     const decoded = jwt.verify(token, secret, {
-      algorithms: [process.env.JWT_SIGN_ALGORITHM],
+      algorithms: [jwtAlgorithm],
     });
     return decoded;
   } catch (err) {
     console.error("Invalid token:", err.message);
+    return null;
   }
 };
 

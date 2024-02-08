@@ -1,11 +1,8 @@
-const { DATABASE } = require("./dbHandler");
+const { insertData, modifyData, findFirst } = require("./dbHandler");
 const bcrypt = require("bcrypt");
 
-// Initialize the database handler
-const userDataBase = new DATABASE(process.env.DB_NAME);
-
-// Select the users table
-userDataBase.selectTable(process.env.DB_USERS_TABLE);
+const DB_NAME = process.env.DB_NAME;
+const DB_USERS_TABLE = process.env.DB_USERS_TABLE;
 
 /**
  * Function to add a new entry to the database.
@@ -14,11 +11,14 @@ userDataBase.selectTable(process.env.DB_USERS_TABLE);
  */
 const addEntry = async ({ email, password, hashtoken }) => {
   try {
-    return await userDataBase.insertData({
-      email: email,
-      password: await bcrypt.hash(password, 10), // Hash the password before storing
-      hashtoken: hashtoken,
-    });
+    return await insertData(
+      {
+        email: email,
+        password: await bcrypt.hash(password, 10), // Hash the password before storing
+        hashtoken: hashtoken,
+      },
+      DB_USERS_TABLE
+    );
   } catch (error) {
     console.error(error);
     return false;
@@ -33,7 +33,7 @@ const addEntry = async ({ email, password, hashtoken }) => {
  */
 const modifyEntry = async (entry, updatedEntry) => {
   try {
-    return await userDataBase.modifyData(entry, updatedEntry);
+    return await modifyData(entry, updatedEntry, DB_USERS_TABLE);
   } catch (error) {
     console.error(error);
     return false;
@@ -47,7 +47,7 @@ const modifyEntry = async (entry, updatedEntry) => {
  */
 const entryExist = async (entry) => {
   try {
-    const expr = await userDataBase.findFirst(entry);
+    const expr = await findFirst(entry, DB_USERS_TABLE);
     return expr !== null && expr !== undefined;
   } catch (error) {
     console.error(error);
@@ -62,8 +62,7 @@ const entryExist = async (entry) => {
  */
 const getEntry = async (entry) => {
   try {
-    const expr = await userDataBase.findFirst(entry);
-    return expr;
+    return await findFirst(entry, DB_USERS_TABLE);
   } catch (error) {
     console.error(error);
     return null;
@@ -79,7 +78,7 @@ const getEntry = async (entry) => {
 const validatePassword = async (entry, password) => {
   try {
     const user = await getEntry(entry);
-    return await bcrypt.compare(String(password), user.password);
+    return user ? await bcrypt.compare(password, user.password) : false;
   } catch (error) {
     console.error(error);
     return false;

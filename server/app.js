@@ -1,117 +1,132 @@
-const express = require("express");
-// require("dotenv").config({ path: "../.env" });
-const {
-  generateJWT,
-  authenticateUser,
-  checkPasswordStrength,
-} = require("./authenticator");
-// const cors = require("cors");
-const path = require("path");
-const cookieParser = require("cookie-parser");
+const { generateJWT, authenticateUser } = require("./authenticator");
 const { entryExist, addEntry, modifyEntry } = require("./db/userData");
 
-// Create an instance of Express app
-const app = express();
+module.exports.test = async (req, res) => {
+  return res.status(200).json({ Message: "Server is working" });
+};
 
-// Middleware
-app.use(cookieParser()); // Parse cookies
-app.use(express.json()); // Parse JSON bodies
+// Route for auto-login
+module.exports.auto_login = async (req, res) => {
+  try {
+    const u_token = req.cookies.hashtoken;
 
-// // CORS configuration
-// const corsOptions = {
-//   origin: process.env.REACT_APP_APP, // Replace with your React app's URL
-//   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-//   credentials: true,
-//   optionsSuccessStatus: 204,
-// };
-// app.use(cors(corsOptions)); // Enable CORS for specified origin
-
-// Route for testing
-app.get("/test", (req, res) => {
-  res.setHeader("Content-Type", "application/json");
-  res.json({ message: "Hey" });
-});
-
-// Route for user auto login
-app.post("/auto_login", async (req, res) => {
-  const u_token = req.cookies.hashtoken;
-  if (u_token && (await authenticateUser({ u_token: u_token }))) {
-    res.cookie("loggedIn", true, { maxAge: 60 * 60 * 1000 * 24 * 7 });
-    res.json({ loggedIn: true });
-  } else {
-    res.cookie("loggedIn", false, { maxAge: 60 * 60 * 1000 * 24 * 7 });
-    res.json({
-      loggedIn: false,
-      type: "error",
-      message: "Cannot auto login. Please login or signup.",
-      time: 2000,
-    });
+    // Authenticate user using JWT token
+    if (u_token && (await authenticateUser({ u_token }))) {
+      // Set loggedIn cookie and return success response
+      res.setHeader(
+        "Set-Cookie",
+        `loggedIn=true; Max-Age=${60 * 60 * 24 * 7}; Secure`
+      );
+      return res.status(200).json({ loggedIn: true });
+    } else {
+      // Set loggedIn cookie to false and return error response
+      res.setHeader(
+        "Set-Cookie",
+        `loggedIn=false; Max-Age=${60 * 60 * 24 * 7}; Secure`
+      );
+      return res.status(401).json({
+        loggedIn: false,
+        type: "error",
+        message: "Cannot auto login. Please login or signup.",
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .json({ type: "error", message: "Internal Server Error" });
   }
-});
+};
 
 // Route for user signup
-app.post("/user_signup", async (req, res) => {
-  const u_email = String(req.body.email);
-  const u_pass = String(req.body.password);
-  const u_repass = String(req.body.repassword);
-  const remember_user = req.body.remember;
-  if (u_email && u_pass && u_repass) {
-    if (await entryExist({ email: u_email })) {
-      res.json({
-        type: "info",
-        message: "Email already exists. Please login.",
-        time: 4000,
+module.exports.user_signup = async (req, res) => {
+  try {
+    const u_email = String(req.body.email);
+    const u_pass = String(req.body.password);
+    const u_repass = String(req.body.repassword);
+    const remember_user = req.body.remember;
+
+    // Validation checks
+    if (!u_email || !u_pass || !u_repass) {
+      return res.status(400).json({
+        type: "error",
+        message: "Please provide all required fields.",
       });
+    }
+    if (await entryExist({ email: u_email })) {
+      return res
+        .status(400)
+        .json({ type: "info", message: "Email already exists. Please login." });
     }
     if (u_pass !== u_repass) {
-      res.json({ type: "error", message: "Both passwords should match." });
-      return;
-    } else if (!checkPasswordStrength(String(u_pass))) {
-      res.json({
-        type: "warning",
-        message: `Password is weak: Password should be 8 or more characters, must contain a CAPITAL letter, a small letter, a Number and a $pecial Symbol at least.`,
-        time: 7000,
-      });
-      return;
+      return res
+        .status(400)
+        .json({ type: "error", message: "Both passwords should match." });
     }
+    if (!checkPasswordStrength(String(u_pass))) {
+      return res.status(400).json({
+        type: "warning",
+        message:
+          "Password is weak. Password should be 8 or more characters, must contain a CAPITAL letter, a small letter, a Number, and a $pecial Symbol at least.",
+      });
+    }
+
+    // Generate JWT token
     const token = generateJWT(u_email);
-    await addEntry({
-      email: u_email,
-      password: u_pass,
-      hashtoken: token,
-    });
-    res.cookie("hashtoken", token, { maxAge: 60 * 60 * 1000 * 24 * 7 });
-    res.cookie("loggedIn", true, { maxAge: 60 * 60 * 1000 * 24 * 7 });
-    res.json({ type: "success", message: "Signup Successful" });
-  } else {
-    res.json({ type: "error", message: "Please try again" });
-    res.sendStatus(403);
+
+    // Add entry to the database
+    await addEntry({ email: u_email, password: u_pass, hashtoken: token });
+
+    // Set cookies
+    res.setHeader("Set-Cookie", [
+      `hashtoken=${token}; Max-Age=${60 * 60 * 24 * 7}; Secure; HttpOnly`,
+      `loggedIn=true; Max-Age=${60 * 60 * 24 * 7}; Secure`,
+    ]);
+
+    // Return success response
+    return res
+      .status(200)
+      .json({ type: "success", message: "Signup Successful" });
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .json({ type: "error", message: "Internal Server Error" });
   }
-});
+};
 
 // Route for user login
-app.post("/user_login", async (req, res) => {
-  const u_email = req.body.email;
-  const u_pass = req.body.password;
-  const remember_user = req.body.remember;
-  if (await authenticateUser({ cred: { u_email: u_email, u_pass: u_pass } })) {
-    const token = generateJWT(u_email);
-    modifyEntry({ email: u_email }, { hashtoken: token });
-    res.cookie("hashtoken", token, { maxAge: 60 * 60 * 1000 });
-    res.cookie("loggedIn", true, { maxAge: 60 * 60 * 1000 * 24 * 7 });
-    res.json({ type: "success", message: "Login Successful" });
-  } else {
-    res.json({ type: "error", message: "Invalid Login Details" });
+module.exports.user_login = async (req, res) => {
+  try {
+    const u_email = req.body.email;
+    const u_pass = req.body.password;
+
+    // Authentication
+    if (await authenticateUser({ cred: { u_email, u_pass } })) {
+      const token = generateJWT(u_email);
+
+      // Update hashtoken in the database
+      await modifyEntry({ email: u_email }, { hashtoken: token });
+
+      // Set cookies
+      res.setHeader("Set-Cookie", [
+        `hashtoken=${token}; Max-Age=${60 * 60}; Secure; HttpOnly`,
+        `loggedIn=true; Max-Age=${60 * 60 * 24 * 7}; Secure`,
+      ]);
+
+      // Return success response
+      return res
+        .status(200)
+        .json({ type: "success", message: "Login Successful" });
+    } else {
+      return res
+        .status(401)
+        .json({ type: "error", message: "Invalid Login Details" });
+    }
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .json({ type: "error", message: "Internal Server Error" });
   }
-});
-
-// Serve static files from the 'public' directory
-app.use(express.static(path.join(__dirname, "public")));
-
-// Serve index.html for all other routes
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
-});
-
-// Start the app
-module.exports = app;
+};
