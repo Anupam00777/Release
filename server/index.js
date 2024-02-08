@@ -1,7 +1,8 @@
-const app = require("./app");
+const { auto_login, user_signup, user_login, test } = require("./app");
 
-const port = process.env.PORT || 5000;
-
-app.listen(port, () => {
-  console.log(`Server is running at: ${port}`);
-});
+module.exports = {
+  auto_login,
+  user_signup,
+  user_login,
+  test,
+};
