@@ -3,20 +3,12 @@
   "builds": [{ "src": "./index.js", "use": "@vercel/node" }],
   "rewrites": [
     {
-      "source": "/auto_login",
-      "destination": "/index.js"
-    },
-    {
-      "source": "/user_signup",
-      "destination": "/index.js"
-    },
-    {
-      "source": "/user_login",
-      "destination": "/index.js"
+      "source": "/",
+      "destination": "/public/index.html"
     },
     {
       "source": "/(.*)",
-      "destination": "/public/index.html"
+      "destination": "/index.js"
     }
   ]
 }
