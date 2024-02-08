@@ -1,12 +1,31 @@
-const { generateJWT, authenticateUser } = require("./authenticator");
+const express = require("express");
+const cookieParser = require("cookie-parser");
+const {
+  generateJWT,
+  authenticateUser,
+  checkPasswordStrength,
+} = require("./authenticator");
 const { entryExist, addEntry, modifyEntry } = require("./db/userData");
+const cors = require("cors");
+const path = require("path");
+const app = express();
+app.use(cookieParser());
+app.use(express.json());
 
-module.exports.test = async (req, res) => {
+const corsOptions = {
+  origin: "*",
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  credentials: true,
+  optionsSuccessStatus: 204,
+};
+app.use(cors(corsOptions));
+
+const test = async (req, res) => {
   return res.status(200).json({ Message: "Server is now working" });
 };
 
 // Route for auto-login
-module.exports.auto_login = async (req, res) => {
+const auto_login = async (req, res) => {
   try {
     const u_token = req.cookies.hashtoken;
 
@@ -39,7 +58,7 @@ module.exports.auto_login = async (req, res) => {
 };
 
 // Route for user signup
-module.exports.user_signup = async (req, res) => {
+const user_signup = async (req, res) => {
   try {
     const u_email = String(req.body.email);
     const u_pass = String(req.body.password);
@@ -96,7 +115,7 @@ module.exports.user_signup = async (req, res) => {
 };
 
 // Route for user login
-module.exports.user_login = async (req, res) => {
+const user_login = async (req, res) => {
   try {
     const u_email = req.body.email;
     const u_pass = req.body.password;
@@ -130,3 +149,17 @@ module.exports.user_login = async (req, res) => {
       .json({ type: "error", message: "Internal Server Error" });
   }
 };
+
+app.use(express.static(path.join(__dirname, "public")));
+app.get("/api/test", test);
+app.post("/api/auto_login", auto_login);
+app.post("/api/user_login", user_login);
+app.post("/api/user_signup", user_signup);
+
+// Global error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: "Internal Server Error" });
+});
+
+module.exports = app;
