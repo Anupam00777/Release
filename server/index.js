@@ -9,6 +9,8 @@ module.exports = async (req, res) => {
     return await user_signup(req, res);
   } else if (pathname === "/user_login") {
     return await user_login(req, res);
+  } else if (pathname === "/test") {
+    return await test(req, res);
   } else {
     // Handle other routes or return a default response
     res.writeHead(404, { "Content-Type": "text/plain" });
