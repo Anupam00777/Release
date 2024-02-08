@@ -1,4 +1,6 @@
 const { auto_login, user_signup, user_login, test } = require("./app");
+const path = require("path");
+const fs = require("fs");
 
 module.exports = async (req, res) => {
   const { pathname } = new URL(req.url, process.env.PUBLIC_URL);
@@ -12,8 +14,16 @@ module.exports = async (req, res) => {
   } else if (pathname === "/test") {
     return await test(req, res);
   } else {
-    // Handle other routes or return a default response
-    res.writeHead(404, { "Content-Type": "text/plain" });
-    res.end("Not found");
+    // Serve React app build from /public directory
+    const publicDir = path.join(__dirname, "public");
+    const indexPath = path.join(publicDir, "index.html");
+
+    // Check if index.html exists
+    if (fs.existsSync(indexPath)) {
+      res.sendFile(indexPath);
+    } else {
+      res.writeHead(404, { "Content-Type": "text/plain" });
+      res.end("Not found");
+    }
   }
 };
