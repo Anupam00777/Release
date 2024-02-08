@@ -28,7 +28,8 @@ app.use(express.json()); // Parse JSON bodies
 
 // Route for testing
 app.get("/test", (req, res) => {
-  res.send("Hey");
+  res.setHeader("Content-Type", "application/json");
+  res.json({ message: "Hey" });
 });
 
 // Route for user auto login
