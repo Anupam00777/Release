@@ -1,6 +1,6 @@
 const express = require("express");
 const cookieParser = require("cookie-parser");
-require("dotenv").config();
+const dotenv = require("dotenv");
 const {
   generateJWT,
   authenticateUser,
@@ -9,41 +9,43 @@ const {
 const { entryExist, addEntry, modifyEntry } = require("./db/userData");
 const cors = require("cors");
 const path = require("path");
-const app = express();
-app.use(cookieParser());
-app.use(express.json());
 
+dotenv.config();
+
+const app = express();
+
+// Middleware
+app.use(express.json());
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, "public")));
+
+// CORS Configuration (Enable only if needed)
 // const corsOptions = {
 //   origin: "https://rel-ease.vercel.app",
 //   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
 //   credentials: true,
 //   optionsSuccessStatus: 204,
 // };
-// app.use(cors());
+// app.use(cors(corsOptions));
 
+// Test Route
 const test = async (req, res) => {
   return res.status(200).json({ Message: "Server is now working" });
 };
 
 // Route for auto-login
-const auto_login = async (req, res) => {
+const autoLogin = async (req, res) => {
   try {
-    const u_token = req.cookies.hashtoken;
+    const userToken = req.cookies.hashtoken;
 
     // Authenticate user using JWT token
-    if (u_token && (await authenticateUser({ u_token }))) {
+    if (userToken && (await authenticateUser({ userToken }))) {
       // Set loggedIn cookie and return success response
-      res.setHeader(
-        "Set-Cookie",
-        `loggedIn=true; Max-Age=${60 * 60 * 24 * 7}; Secure`
-      );
+      res.cookie("loggedIn", true, { maxAge: 604800000, secure: true });
       return res.status(200).json({ loggedIn: true });
     } else {
       // Set loggedIn cookie to false and return error response
-      res.setHeader(
-        "Set-Cookie",
-        `loggedIn=false; Max-Age=${60 * 60 * 24 * 7}; Secure`
-      );
+      res.cookie("loggedIn", false, { maxAge: 604800000, secure: true });
       return res.status(401).json({
         loggedIn: false,
         type: "error",
@@ -59,31 +61,29 @@ const auto_login = async (req, res) => {
 };
 
 // Route for user signup
-const user_signup = async (req, res) => {
+const userSignup = async (req, res) => {
   try {
-    const u_email = String(req.body.email);
-    const u_pass = String(req.body.password);
-    const u_repass = String(req.body.repassword);
-    const remember_user = req.body.remember;
+    const { email, password, repassword } = req.body;
+    const rememberUser = req.body.remember;
 
     // Validation checks
-    if (!u_email || !u_pass || !u_repass) {
+    if (!email || !password || !repassword) {
       return res.status(400).json({
         type: "error",
         message: "Please provide all required fields.",
       });
     }
-    if (await entryExist({ email: u_email })) {
+    if (await entryExist({ email })) {
       return res
         .status(400)
         .json({ type: "info", message: "Email already exists. Please login." });
     }
-    if (u_pass !== u_repass) {
+    if (password !== repassword) {
       return res
         .status(400)
         .json({ type: "error", message: "Both passwords should match." });
     }
-    if (!checkPasswordStrength(String(u_pass))) {
+    if (!checkPasswordStrength(password)) {
       return res.status(400).json({
         type: "warning",
         message:
@@ -92,16 +92,18 @@ const user_signup = async (req, res) => {
     }
 
     // Generate JWT token
-    const token = generateJWT(u_email);
+    const token = generateJWT(email);
 
     // Add entry to the database
-    await addEntry({ email: u_email, password: u_pass, hashtoken: token });
+    await addEntry({ email, password, hashtoken: token });
 
     // Set cookies
-    res.setHeader("Set-Cookie", [
-      `hashtoken=${token}; Max-Age=${60 * 60 * 24 * 7}; Secure; HttpOnly`,
-      `loggedIn=true; Max-Age=${60 * 60 * 24 * 7}; Secure`,
-    ]);
+    res.cookie("hashtoken", token, {
+      maxAge: 604800000,
+      secure: true,
+      httpOnly: true,
+    });
+    res.cookie("loggedIn", true, { maxAge: 604800000, secure: true });
 
     // Return success response
     return res
@@ -116,24 +118,24 @@ const user_signup = async (req, res) => {
 };
 
 // Route for user login
-const user_login = async (req, res) => {
+const userLogin = async (req, res) => {
   try {
-    const u_email = req.body.email;
-    const u_pass = req.body.password;
-    console.log("email: " + u_email + " pass: " + u_pass);
-    // Authentication
-    if (await authenticateUser({ cred: { u_email, u_pass } })) {
-      const token = generateJWT(u_email);
+    const { email, password } = req.body;
 
-      console.log("token: ", token);
+    // Authentication
+    if (await authenticateUser({ cred: { email, password } })) {
+      const token = generateJWT(email);
+
       // Update hashtoken in the database
-      await modifyEntry({ email: u_email }, { hashtoken: token });
+      await modifyEntry({ email }, { hashtoken: token });
 
       // Set cookies
-      res.setHeader("Set-Cookie", [
-        `hashtoken=${token}; Max-Age=${60 * 60}; Secure; HttpOnly`,
-        `loggedIn=true; Max-Age=${60 * 60 * 24 * 7}; Secure`,
-      ]);
+      res.cookie("hashtoken", token, {
+        maxAge: 3600000,
+        secure: true,
+        httpOnly: true,
+      });
+      res.cookie("loggedIn", true, { maxAge: 604800000, secure: true });
 
       // Return success response
       return res
@@ -152,11 +154,11 @@ const user_login = async (req, res) => {
   }
 };
 
-app.use(express.static(path.join(__dirname, "public")));
+// Routes
 app.get("/test", test);
 app.get("/test2", test);
-app.post("/auto_login", auto_login);
-app.post("/user_login", user_login);
-app.post("/user_signup", user_signup);
+app.post("/auto_login", autoLogin);
+app.post("/user_login", userLogin);
+app.post("/user_signup", userSignup);
 
 module.exports = app;

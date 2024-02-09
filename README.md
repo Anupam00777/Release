@@ -1,6 +1,7 @@
-# [Release](https://release-ko0l.onrender.com) - Social Media Crawler
+# [Release](https://rel-ease.vercel.app) - Social Media Crawler
 
-**Description:**
+## Description:
+
 Release is an ongoing web application project developed using React and Tailwind CSS. The project aims to evolve into a comprehensive social media crawler, fetching top and trending content from various social media platforms. The code is written with readability in mind to ensure collaboration and contributions from developers of all levels.
 
 ## Features:
@@ -30,39 +31,28 @@ Release is an ongoing web application project developed using React and Tailwind
 
   - A utility-first CSS framework that enables the creation of modern and responsive user interfaces with ease.
 
+- **Express.js:**
+
+  - Utilizing Express.js on the backend, Release ensures robust and efficient server-side operations, enabling seamless interaction with client applications.
+
+- **MongoDB Atlas:**
+
+  - Leveraging MongoDB Atlas as its database solution, Release ensures scalable and reliable data storage, empowering its mission to deliver top-notch performance and reliability.
+
 ## Getting Started:
 
 1. Clone the repository:
    ```bash
    git clone https://github.com/anupam00777/release.git
    ```
-2. Navigate to the project directory:
-   ```bash
-   cd release
-   ```
-3. Install dependencies:
-   ```bash
-   npm install
-   ```
-4. Run the development server:
-   ```bash
-   npm start
-   ```
 
-## Contribution Guidelines:
-
-## Step 1: Fork the Repository
-
-```bash
-git clone https://github.com/anupam00777/release.git
-
-```
+````
 
 ### Step 2: Create a New Branch
 
 ```bash
 git checkout -b feature/your-feature-name
-```
+````
 
 ### Step 3: Make Changes and Commit
 

@@ -13,14 +13,13 @@ const jwtAlgorithm = process.env.JWT_SIGN_ALGORITHM;
 const generateJWT = (email) => {
   const payload = {
     iss: "Release",
-    exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 7, // Expires in 7 days
+    exp: Math.floor(Date.now() / 1000) + 604800, // Expires in 7 days (60 * 60 * 24 * 7)
     email: email,
   };
 
-  const token = jwt.sign(payload, secret, {
+  return jwt.sign(payload, secret, {
     algorithm: jwtAlgorithm,
   });
-  return token;
 };
 
 /**
@@ -30,10 +29,9 @@ const generateJWT = (email) => {
  */
 const decodeJWT = (token) => {
   try {
-    const decoded = jwt.verify(token, secret, {
+    return jwt.verify(token, secret, {
       algorithms: [jwtAlgorithm],
     });
-    return decoded;
   } catch (err) {
     console.error("Invalid token:", err.message);
     return null;
@@ -53,16 +51,12 @@ const authenticateUser = async ({
   u_token = null,
   cred = { u_email: null, u_pass: null },
 }) => {
-  console.log("authenticate: ");
   if (u_token) {
-    console.log(u_token);
-    const u_data = decodeJWT(u_token);
-    console.log(u_data);
-    if (u_data && u_data.exp > Math.floor(Date.now() / 1000)) {
-      if (await entryExist({ email: u_data.email })) return true;
+    const decodedToken = decodeJWT(u_token);
+    if (decodedToken && decodedToken.exp > Math.floor(Date.now() / 1000)) {
+      return await entryExist({ email: decodedToken.email });
     }
   } else if (cred && cred.u_email && cred.u_pass) {
-    console.log(cred);
     if (await entryExist({ email: cred.u_email })) {
       return await validatePassword({ email: cred.u_email }, cred.u_pass);
     }
@@ -80,23 +74,14 @@ const checkPasswordStrength = (password) => {
   if (password.length < 8) {
     return 0;
   }
-  // Check for at least one uppercase letter.
-  if (!/[A-Z]/.test(password)) {
-    return 0;
-  }
 
-  // Check for at least one lowercase letter.
-  if (!/[a-z]/.test(password)) {
-    return 0;
-  }
-
-  // Check for at least one number.
-  if (!/[0-9]/.test(password)) {
-    return 0;
-  }
-
-  // Check for at least one special symbol.
-  if (!/[!@#$%^&*]/.test(password)) {
+  // Check for at least one uppercase letter, one lowercase letter, one number, and one special symbol.
+  if (
+    !/[A-Z]/.test(password) ||
+    !/[a-z]/.test(password) ||
+    !/[0-9]/.test(password) ||
+    !/[!@#$%^&*]/.test(password)
+  ) {
     return 0;
   }
 
