@@ -129,10 +129,7 @@ const userLogin = async (req, res) => {
       const token = generateJWT(email);
 
       // Update hashtoken in the database
-      await modifyEntry(
-        { email, hashtoken },
-        { email: email, hashtoken: token }
-      );
+      await modifyEntry({ email: email }, { email: email, hashtoken: token });
 
       // Set cookies
       res.cookie("hashtoken", token, {
