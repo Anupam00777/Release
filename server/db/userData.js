@@ -1,7 +1,6 @@
 const { insertData, modifyData, findFirst } = require("./dbHandler");
 const bcrypt = require("bcrypt");
 
-const DB_NAME = process.env.DB_NAME;
 const DB_USERS_TABLE = process.env.DB_USERS_TABLE;
 
 /**
