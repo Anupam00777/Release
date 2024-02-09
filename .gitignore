@@ -11,6 +11,7 @@ node_modules
 
 # production
 /client/build 
+/server/vercel.json 
 #backend
 
 client/src/firebaseconfig.js

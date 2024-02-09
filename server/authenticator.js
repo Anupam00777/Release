@@ -53,12 +53,16 @@ const authenticateUser = async ({
   u_token = null,
   cred = { u_email: null, u_pass: null },
 }) => {
+  console.log("authenticate: ");
   if (u_token) {
+    console.log(u_token);
     const u_data = decodeJWT(u_token);
+    console.log(u_data);
     if (u_data && u_data.exp > Math.floor(Date.now() / 1000)) {
       if (await entryExist({ email: u_data.email })) return true;
     }
   } else if (cred && cred.u_email && cred.u_pass) {
+    console.log(cred);
     if (await entryExist({ email: cred.u_email })) {
       return await validatePassword({ email: cred.u_email }, cred.u_pass);
     }

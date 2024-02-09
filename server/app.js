@@ -120,11 +120,12 @@ const user_login = async (req, res) => {
   try {
     const u_email = req.body.email;
     const u_pass = req.body.password;
-
+    console.log("email: " + u_email + " pass: " + u_pass);
     // Authentication
     if (await authenticateUser({ cred: { u_email, u_pass } })) {
       const token = generateJWT(u_email);
 
+      console.log("token: ", token);
       // Update hashtoken in the database
       await modifyEntry({ email: u_email }, { hashtoken: token });
 
@@ -153,6 +154,7 @@ const user_login = async (req, res) => {
 
 app.use(express.static(path.join(__dirname, "public")));
 app.get("/test", test);
+app.get("/test2", test);
 app.post("/auto_login", auto_login);
 app.post("/user_login", user_login);
 app.post("/user_signup", user_signup);

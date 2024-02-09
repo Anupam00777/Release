@@ -1,7 +1,7 @@
 const { insertData, modifyData, findFirst } = require("./dbHandler");
 const bcrypt = require("bcrypt");
 
-const DB_USERS_TABLE = process.env.DB_USERS_TABLE;
+const DB_USERS_TABLE = String(process.env.DB_USERS_TABLE);
 
 /**
  * Function to add a new entry to the database.
@@ -46,7 +46,9 @@ const modifyEntry = async (entry, updatedEntry) => {
  */
 const entryExist = async (entry) => {
   try {
+    console.log("Finding entry..");
     const expr = await findFirst(entry, DB_USERS_TABLE);
+    console.log("Entry found: ", expr);
     return expr !== null && expr !== undefined;
   } catch (error) {
     console.error(error);

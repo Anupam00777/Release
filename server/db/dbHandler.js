@@ -6,7 +6,9 @@ const DB_NAME = process.env.DB_NAME;
 async function openConnection(DatabaseName) {
   try {
     const client = new MongoClient(uri);
+    console.log("Starting client connecion... ");
     await client.connect();
+    console.log("Client connected! ");
     return { client, db: client.db(DatabaseName) };
   } catch (err) {
     console.error("Error connecting to MongoDB", err);
@@ -93,6 +95,7 @@ async function removeData(filter, tableName) {
 
 async function findFirst(filter, tableName) {
   let { client, db } = await openConnection(DB_NAME);
+
   try {
     const table = await db.collection(tableName);
     const result = await table.findOne(filter);
