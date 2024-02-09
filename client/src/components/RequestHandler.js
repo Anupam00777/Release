@@ -1,7 +1,6 @@
 // Handling request and responses from server
 
 import { toggleAlert } from "./Alert";
-import data from "./data";
 
 /**
  * Sends a request to the server asynchronously.
@@ -75,7 +74,7 @@ export const handleServerError = (error) => {
 export const checkLogin = async (callback) => {
   try {
     return await sendRequest(
-      data.server.autoLogin,
+      process.env.REACT_APP_AUTO_LOGIN,
       "POST",
       {},
       {},
@@ -96,7 +95,7 @@ export const checkLogin = async (callback) => {
  */
 export const UserLogin = async (user) => {
   try {
-    const res = await SendUserData(user, data.server.userLogin);
+    const res = await SendUserData(user, process.env.REACT_APP_USER_LOGIN);
     const json = await res.json();
 
     if (json) {
@@ -121,7 +120,7 @@ export const UserLogin = async (user) => {
  */
 export const UserSignup = async (user) => {
   try {
-    const res = await SendUserData(user, data.server.userSignup);
+    const res = await SendUserData(user, process.env.REACT_APP_USER_SIGNUP);
     const json = await res.json();
 
     if (json) {

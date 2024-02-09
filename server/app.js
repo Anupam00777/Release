@@ -19,7 +19,7 @@ app.use(express.json());
 //   credentials: true,
 //   optionsSuccessStatus: 204,
 // };
-app.use(cors());
+// app.use(cors());
 
 const test = async (req, res) => {
   return res.status(200).json({ Message: "Server is now working" });

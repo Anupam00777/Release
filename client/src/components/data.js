@@ -9,12 +9,6 @@ import { DropdownOption, LinkOption, ToggleOption } from "./utilities";
 
 // The data object will be exported to allow page specific access to all the data.
 const data = {
-  server: {
-    SERVER: process.env.REACT_APP_SERVER,
-    autoLogin: process.env.REACT_APP_AUTO_LOGIN,
-    userLogin: process.env.REACT_APP_USER_LOGIN,
-    userSignup: process.env.REACT_APP_USER_SIGNUP,
-  },
   // What to show in Headers
   HeaderNav: [
     { sno: 1, title: "Home", href: "/", onClick: "" },
