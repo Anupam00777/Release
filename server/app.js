@@ -73,7 +73,7 @@ const userSignup = async (req, res) => {
         message: "Please provide all required fields.",
       });
     }
-    if (await entryExist({ email })) {
+    if (await entryExist({ email: email })) {
       return res
         .status(400)
         .json({ type: "info", message: "Email already exists. Please login." });
@@ -95,7 +95,7 @@ const userSignup = async (req, res) => {
     const token = generateJWT(email);
 
     // Add entry to the database
-    await addEntry({ email, password, hashtoken: token });
+    await addEntry({ email: email, password: password, hashtoken: token });
 
     // Set cookies
     res.cookie("hashtoken", token, {
@@ -123,11 +123,13 @@ const userLogin = async (req, res) => {
     const { email, password } = req.body;
 
     // Authentication
-    if (await authenticateUser({ cred: { email, password } })) {
+    if (
+      await authenticateUser({ cred: { email: email, password: password } })
+    ) {
       const token = generateJWT(email);
 
       // Update hashtoken in the database
-      await modifyEntry({ email }, { hashtoken: token });
+      await modifyEntry({ email: email, hashtoken: token });
 
       // Set cookies
       res.cookie("hashtoken", token, {
