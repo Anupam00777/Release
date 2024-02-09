@@ -151,16 +151,10 @@ const user_login = async (req, res) => {
   }
 };
 
-app.get("/api/test", test);
-app.post("/api/auto_login", auto_login);
-app.post("/api/user_login", user_login);
-app.post("/api/user_signup", user_signup);
-
 app.use(express.static(path.join(__dirname, "public")));
-// Global error handling middleware
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({ error: "Internal Server Error" });
-});
+app.get("/test", test);
+app.post("/auto_login", auto_login);
+app.post("/user_login", user_login);
+app.post("/user_signup", user_signup);
 
 module.exports = app;
