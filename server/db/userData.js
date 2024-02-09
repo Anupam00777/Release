@@ -12,7 +12,7 @@ const addEntry = async ({ email, password, hashtoken }) => {
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
     return await insertData(
-      { email, password: hashedPassword, hashtoken },
+      { email: email, password: hashedPassword, hashtoken: hashtoken },
       DB_USERS_TABLE
     );
   } catch (error) {

@@ -39,7 +39,7 @@ const autoLogin = async (req, res) => {
     const userToken = req.cookies.hashtoken;
 
     // Authenticate user using JWT token
-    if (userToken && (await authenticateUser({ userToken }))) {
+    if (userToken && (await authenticateUser({ u_token: userToken }))) {
       // Set loggedIn cookie and return success response
       res.cookie("loggedIn", true, { maxAge: 604800000, secure: true });
       return res.status(200).json({ loggedIn: true });
@@ -124,12 +124,15 @@ const userLogin = async (req, res) => {
 
     // Authentication
     if (
-      await authenticateUser({ cred: { email: email, password: password } })
+      await authenticateUser({ cred: { u_email: email, u_pass: password } })
     ) {
       const token = generateJWT(email);
 
       // Update hashtoken in the database
-      await modifyEntry({ email: email, hashtoken: token });
+      await modifyEntry(
+        { email, hashtoken },
+        { email: email, hashtoken: token }
+      );
 
       // Set cookies
       res.cookie("hashtoken", token, {

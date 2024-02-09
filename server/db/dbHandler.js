@@ -6,10 +6,9 @@ let cachedDb = null;
 
 /**
  * Opens a connection to the MongoDB database.
- * @param {string} databaseName - The name of the database.
- * @returns {object} An object containing the client and the database.
+ * @returns {object} An object containing the database.
  */
-async function openConnection(databaseName) {
+async function openConnection() {
   if (cachedDb) {
     return cachedDb;
   }
@@ -39,7 +38,7 @@ async function closeConnection(client) {
  * @returns {object} The created collection.
  */
 async function createTable(tableName) {
-  let { client, db } = await openConnection(dbName);
+  let db = await openConnection(dbName);
   try {
     const collection = db.collection(tableName);
     await collection.createIndex({ key: 1 });
@@ -58,7 +57,7 @@ async function createTable(tableName) {
  * @returns {string} The ID of the inserted document.
  */
 async function insertData(data, tableName) {
-  let { client, db } = await openConnection(dbName);
+  let db = await openConnection(dbName);
   try {
     const collection = db.collection(tableName);
     const result = await collection.insertOne(data);
@@ -78,7 +77,7 @@ async function insertData(data, tableName) {
  * @returns {number} The number of documents modified.
  */
 async function modifyData(filter, update, tableName) {
-  let { client, db } = await openConnection(dbName);
+  let db = await openConnection(dbName);
   try {
     const collection = db.collection(tableName);
     const result = await collection.updateOne(filter, { $set: update });
@@ -97,7 +96,7 @@ async function modifyData(filter, update, tableName) {
  * @returns {number} The number of documents removed.
  */
 async function removeData(filter, tableName) {
-  let { client, db } = await openConnection(dbName);
+  let db = await openConnection(dbName);
   try {
     const collection = db.collection(tableName);
     const result = await collection.deleteOne(filter);
@@ -116,7 +115,7 @@ async function removeData(filter, tableName) {
  * @returns {object} The first matching document.
  */
 async function findFirst(filter, tableName) {
-  let { client, db } = await openConnection(dbName);
+  let db = await openConnection(dbName);
   try {
     const collection = db.collection(tableName);
     return await collection.findOne(filter);
@@ -134,7 +133,7 @@ async function findFirst(filter, tableName) {
  * @returns {Array} An array of matching documents.
  */
 async function findAll(filter, tableName, callback) {
-  let { client, db } = await openConnection(dbName);
+  let db = await openConnection(dbName);
   try {
     const collection = db.collection(tableName);
     const result = await collection.find(filter).toArray();
