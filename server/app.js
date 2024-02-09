@@ -13,13 +13,13 @@ const app = express();
 app.use(cookieParser());
 app.use(express.json());
 
-const corsOptions = {
-  origin: "https://rel-ease.vercel.app",
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-  credentials: true,
-  optionsSuccessStatus: 204,
-};
-app.use(cors(corsOptions));
+// const corsOptions = {
+//   origin: "https://rel-ease.vercel.app",
+//   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+//   credentials: true,
+//   optionsSuccessStatus: 204,
+// };
+app.use(cors());
 
 const test = async (req, res) => {
   return res.status(200).json({ Message: "Server is now working" });
