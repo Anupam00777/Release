@@ -1,5 +1,6 @@
 const express = require("express");
 const cookieParser = require("cookie-parser");
+require("dotenv").config();
 const {
   generateJWT,
   authenticateUser,
@@ -13,7 +14,7 @@ app.use(cookieParser());
 app.use(express.json());
 
 const corsOptions = {
-  origin: "*",
+  origin: "https://rel-ease.vercel.app",
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true,
   optionsSuccessStatus: 204,
