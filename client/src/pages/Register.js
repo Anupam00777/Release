@@ -21,14 +21,16 @@ import logo from "../components/logo.png";
 import { Link } from "react-router-dom";
 import { BUTTON } from "../components/utilities";
 import { UserLogin, UserSignup } from "../components/RequestHandler";
+import LoadingIcon from "../components/LoadingIcon";
 
 /**
  * Register component renders a registration form.
- * @param {number} type - Type of form: 0 for login, 1 for signup.
+ * @param {number} type - Type of form: 0 for login, 1 for signup, 2 for forgot password.
  * @returns {JSX.Element} Registration form component.
  */
 export default function Register({ type = 0 }) {
   const [formType, changeFormType] = useState(type);
+  const [Loading, showLoading] = useState(false);
 
   /**
    * Toggles between login and signup form types.
@@ -41,13 +43,15 @@ export default function Register({ type = 0 }) {
    * Initiates login or signup based on the form type.
    * @param {object} form - Reference to the form element.
    */
-  const initiate_login = (form) => {
+  const initiate_login = async (form) => {
+    showLoading(true);
     const formData = new FormData(form.current);
     let reqBody = {};
     formData.forEach((value, key) => {
       reqBody[key] = value;
     });
-    return formType ? UserSignup(reqBody) : UserLogin(reqBody);
+    formType ? await UserSignup(reqBody) : await UserLogin(reqBody);
+    showLoading(false);
   };
 
   return (
@@ -60,6 +64,7 @@ export default function Register({ type = 0 }) {
             type={formType}
             action={initiate_login}
             changeFormType={toggleFormType}
+            Loading={Loading}
           />
         </div>
       </section>
@@ -93,9 +98,8 @@ const FormHeader = () => {
  * @param {Function} changeFormType - Function to toggle form type.
  * @returns {JSX.Element} Main form section.
  */
-const Form = ({ type = 1, action, changeFormType }) => {
+const Form = ({ type = 1, action, changeFormType, Loading = false }) => {
   const FORM = useRef();
-
   /**
    * Handles form submission.
    * @param {Object} e - Event object.
@@ -106,7 +110,8 @@ const Form = ({ type = 1, action, changeFormType }) => {
   };
 
   return (
-    <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
+    <div className="p-6 space-y-4 md:space-y-6 sm:p-8 relative">
+      <LoadingIcon classNames={Loading ? "" : "hidden"} />
       <h1 className="text-base font-bold leading-tight tracking-tight md:text-lg text-red-500">
         {type ? "Sign Up for an" : "Log In to your"} account
       </h1>

@@ -4,7 +4,13 @@
   "description": "**Description:** Release is an ongoing web application project developed using React and Tailwind CSS. The project aims to evolve into a comprehensive social media crawler, fetching top and trending content from various social media platforms. The code is written with readability in mind to ensure collaboration and contributions from developers of all levels.",
   "main": "/server/index.js",
   "dependencies": {
-    "vercel": "^33.4.1"
+    "@datastax/astra-db-ts": "^0.1.4",
+    "cassandra-driver": "^4.7.2",
+    "concurrently": "^8.2.2",
+    "insta-fetcher": "^1.3.27",
+    "react-instagram-embed": "^3.0.0",
+    "vercel": "^33.4.1",
+    "wrangler": "^3.28.1"
   },
   "scripts": {
     "start": "concurrently \"npm run server\" \"npm run client\"",

@@ -120,7 +120,7 @@ export const SunSVG = () => {
 export const SettingsSVG = () => {
   return (
     <svg
-      className="md:h-8 md:w-8 h-4 w-4 "
+      className="md:h-8 md:w-8 h-6 w-6 "
       version="1.1"
       id="Capa_1"
       xmlns="http://www.w3.org/2000/svg"
@@ -163,7 +163,7 @@ export const SettingsSVG = () => {
 export const HomeSVG = () => {
   return (
     <svg
-      className="md:h-8 md:w-8 h-4 w-4 "
+      className="md:h-8 md:w-8 h-6 w-6 "
       version="1.1"
       id="Capa_1"
       xmlns="http://www.w3.org/2000/svg"
@@ -186,7 +186,7 @@ export const HomeSVG = () => {
 export const NotificationSVG = () => {
   return (
     <svg
-      className="md:h-8 md:w-8 h-4 w-4 "
+      className="md:h-8 md:w-8 h-6 w-6 "
       version="1.1"
       id="Capa_1"
       xmlns="http://www.w3.org/2000/svg"
@@ -213,7 +213,7 @@ export const NotificationSVG = () => {
 export const ProfileSVG = () => {
   return (
     <svg
-      className="md:h-8 md:w-8 h-4 w-4 "
+      className="md:h-8 md:w-8 h-6 w-6 "
       version="1.1"
       id="Capa_1"
       xmlns="http://www.w3.org/2000/svg"

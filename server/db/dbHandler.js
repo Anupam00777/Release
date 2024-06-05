@@ -1,7 +1,6 @@
-const { MongoClient } = require("mongodb");
+const { AstraDB } = require("@datastax/astra-db-ts");
 
-const uri = process.env.DB_URI;
-const dbName = process.env.DB_NAME;
+const dbName = process.env.ASTRA_DB_NAME;
 let cachedDb = null;
 
 /**
@@ -12,9 +11,12 @@ async function openConnection() {
   if (cachedDb) {
     return cachedDb;
   }
-  const client = new MongoClient(uri);
-  await client.connect();
-  const db = client.db(dbName);
+  const astraDb = new AstraDB(
+    process.env.ASTRA_DB_TOKEN,
+    process.env.ASTRA_DB_ENDPOINT
+  );
+  const client = await astraDb.connect();
+  const db = client.db("RELEASE");
   cachedDb = db;
   return db;
 }
@@ -40,8 +42,7 @@ async function closeConnection(client) {
 async function createTable(tableName) {
   let db = await openConnection(dbName);
   try {
-    const collection = db.collection(tableName);
-    await collection.createIndex({ key: 1 });
+    const collection = db.createCollection(tableName);
     console.log(`Collection '${tableName}' created successfully.`);
     return collection;
   } catch (error) {

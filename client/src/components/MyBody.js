@@ -11,6 +11,7 @@
  */
 
 import React from "react";
+import LoadingIcon from "./LoadingIcon";
 
 /**
  * @param {ReactNode} children - The content to be rendered within the body.
@@ -19,7 +20,7 @@ import React from "react";
  */
 function MyBody({ children }) {
   return (
-    <main className="flex flex-1 flex-col bg-primary-light-900 dark:bg-primary-dark-900">
+    <main className="flex flex-1 flex-col bg-primary-light-900 dark:bg-primary-dark-900 relative">
       {children}
     </main>
   );

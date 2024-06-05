@@ -9,7 +9,7 @@ import { toggleAlert } from "./Alert";
  * @param {Object} headers - The request headers.
  * @param {Object|null} body - The request body.
  * @param {Function|null} callback - The callback function to handle the response.
- * @returns {boolean} - Returns true if no callback is provided.
+ * @returns {object} - Returns true if no callback is provided.
  */
 export const sendRequest = async (
   path = "",
@@ -130,6 +130,7 @@ export const UserSignup = async (user) => {
           window.location = "/";
         }, 2000);
       }
+      return true;
     } else {
       return false;
     }

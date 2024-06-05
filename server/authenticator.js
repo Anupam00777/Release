@@ -1,5 +1,8 @@
 const jwt = require("jsonwebtoken");
-const { entryExist, validatePassword } = require("./db/userData");
+const { entryExist, validatePassword, getEntry } = require("./db/userData");
+const sendEmail = require("./db/mailHandler");
+const { findFirst } = require("./db/dbHandler");
+const { emit } = require("./app");
 
 // Secret key for JWT signing
 const secret = process.env.JWT_SIGN_KEY;
@@ -54,7 +57,13 @@ const authenticateUser = async ({
   if (u_token) {
     const decodedToken = decodeJWT(u_token);
     if (decodedToken && decodedToken.exp > Math.floor(Date.now() / 1000)) {
-      return await entryExist({ email: decodedToken.email });
+      return (
+        (await entryExist({ email: decodedToken.email })) &&
+        u_token ===
+          (await (
+            await getEntry({ email: decodedToken.email })
+          ).hashtoken)
+      );
     }
   } else if (cred && cred.u_email && cred.u_pass) {
     if (await entryExist({ email: cred.u_email })) {
@@ -62,6 +71,14 @@ const authenticateUser = async ({
     }
   }
   return false;
+};
+
+const verifyEmailExist = async ({ email }) => {
+  const verifyResult = await fetch(
+    `https://validemail.io/v1/validate?api_key=FHyo67LX4J0W6LT2ZLtojzNtXfKDLHkc&email=${email}`
+  );
+  const json = await verifyResult.json();
+  return (await json.is_valid) === "Valid" && !(await json.is_disposable);
 };
 
 /**
@@ -94,4 +111,5 @@ module.exports = {
   decodeJWT,
   authenticateUser,
   checkPasswordStrength,
+  verifyEmailExist,
 };
